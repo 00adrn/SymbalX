@@ -9,6 +9,15 @@ public class Spotify
     private SpotifyClient? spotifyClient;
     private string? _clientID;
     private string? _verifier;
+
+
+    public Spotify()
+    {
+        _clientID = File.ReadAllLines("client.txt")[0];
+        Console.WriteLine(_clientID);
+    }
+
+
     public Uri GenerateLoginUri()
     {
         var (verifier, challenge) = PKCEUtil.GenerateCodes();
