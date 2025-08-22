@@ -49,6 +49,16 @@
       "frameworks": {
         "net9.0": {
           "targetAlias": "net9.0",
+          "dependencies": {
+            "SpotifyAPI.Web": {
+              "target": "Package",
+              "version": "[7.2.1, )"
+            },
+            "SpotifyAPI.Web.Auth": {
+              "target": "Package",
+              "version": "[7.2.1, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",
