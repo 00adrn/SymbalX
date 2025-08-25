@@ -13,11 +13,32 @@ public static class SpotifyEndpoints
             return "Spotify Page";
         });
 
-        group.MapGet("/playlists/{uri}", async (string uri) =>
+        group.MapGet("/playlist/{uri}", async (string uri) =>
         {
-            FullPlaylist playlist = await spotify.GetPaylistInfo(uri);
+            FullPlaylist playlist = await spotify.GetPaylistInfoAsync(uri);
 
             return Results.Ok(playlist);
+        });
+
+        group.MapGet("/track/{uri}", async (string uri) =>
+        {
+            FullTrack track = await spotify.GetTrackInfoAsync(uri);
+
+            return Results.Ok(track);
+        });
+
+        group.MapGet("/album/{uri}", async (string uri) =>
+        {
+            FullAlbum album = await spotify.GetAlbumInfoAsync(uri);
+
+            return Results.Ok(album);
+        });
+
+        group.MapGet("/artist/{uri}", async (string uri) =>
+        {
+            FullArtist artist = await spotify.GetArtistInfoAsync(uri);
+
+            return Results.Ok(artist);
         });
 
         return group;
