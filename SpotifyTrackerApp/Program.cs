@@ -6,7 +6,7 @@ var app = builder.Build();
 
 Spotify spotify = new Spotify();
 
-app.MapGet("", () => { return "main page"; });
+app.MapGet("", () => { return Results.Redirect("localhost:5157/auth"); });
 
 SpotifyEndpoints.MapEndpoints(app, spotify);
 SpotifyAuthEndpoints.MapEndpoints(app, spotify);

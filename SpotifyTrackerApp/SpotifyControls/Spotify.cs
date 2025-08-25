@@ -15,7 +15,7 @@ public class Spotify
         return false;
     }
 
-    public async Task<FullPlaylist> GetPaylistInfoAsync(string uri)
+    public async Task<FullPlaylist> GetPlaylistInfoAsync(string uri)
     {
         return await spotifyClient!.Playlists.Get(uri);
     }
