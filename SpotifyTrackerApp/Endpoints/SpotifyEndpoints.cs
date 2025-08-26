@@ -42,7 +42,6 @@ public static class SpotifyEndpoints
             return Results.Ok(new ArtistDto(artist));
         });
 
-
         return group;
     }
 }
