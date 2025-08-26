@@ -5,37 +5,37 @@ namespace SpotifyTrackerApp.Endpoints;
 
 public static class SpotifyEndpoints
 {
-    public static RouteGroupBuilder MapEndpoints(this WebApplication app, Spotify spotify)
+    public static RouteGroupBuilder MapSpotifyEndpoints(this IEndpointRouteBuilder app)
     {
-        RouteGroupBuilder group = app.MapGroup("/spotify");
+        var group = app.MapGroup("/spotify");
 
         group.MapGet("", () =>
         {
             return "Spotify Page";
         });
 
-        group.MapGet("/playlist/{uri}", async (string uri) =>
+        group.MapGet("/playlist/{uri}", async (string uri, Spotify spotify) =>
         {
             FullPlaylist playlist = await spotify.GetPlaylistInfoAsync(uri);
 
             return Results.Ok(new PlaylsitDto(playlist));
         });
 
-        group.MapGet("/track/{uri}", async (string uri) =>
+        group.MapGet("/track/{uri}", async (string uri, Spotify spotify) =>
         {
             FullTrack track = await spotify.GetTrackInfoAsync(uri);
 
             return Results.Ok(new TrackDto(track));
         });
 
-        group.MapGet("/album/{uri}", async (string uri) =>
-        {
+        group.MapGet("/album/{uri}", async (string uri, Spotify spotify) =>
+        {        
             FullAlbum album = await spotify.GetAlbumInfoAsync(uri);
 
             return Results.Ok(new AlbumDto(album));
         });
 
-        group.MapGet("/artist/{uri}", async (string uri) =>
+        group.MapGet("/artist/{uri}", async (string uri, Spotify spotify) =>
         {
             FullArtist artist = await spotify.GetArtistInfoAsync(uri);
 

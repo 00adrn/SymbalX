@@ -3,6 +3,10 @@ using SpotifyTrackerApp.SpotifyControls;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddScoped<Spotify>();
+builder.Services.AddSingleton<SpotifyAuth>();
+builder.Services.AddHttpContextAccessor();
+
 const string devCorsPolicy = "devCorsPolicy";
 
 builder.Services.AddCors(options =>
@@ -18,18 +22,11 @@ builder.Services.AddCors(options =>
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
-{
     app.UseCors(devCorsPolicy);
-}
 
-app.MapGet("", () =>
-{
-    Results.Redirect("http://localhost:5173/");
-});
 
-Spotify spotify = new Spotify();
-
-SpotifyEndpoints.MapEndpoints(app, spotify);
-SpotifyAuthEndpoints.MapEndpoints(app, spotify);
+SpotifyEndpoints.MapSpotifyEndpoints(app);
+SpotifyAuthEndpoints.MapAuthEndpoints(app);
 
 app.Run();
+

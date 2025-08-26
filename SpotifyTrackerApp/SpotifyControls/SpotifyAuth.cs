@@ -30,13 +30,13 @@ public class SpotifyAuth
         return loginRequest.ToUri();
     }
 
-    public async Task GetCallBack(string code, Spotify spotify)
+    public async Task<PKCETokenResponse> GetCallBack(string code)
     {
         _initialResponse = await new OAuthClient().RequestToken(
             new PKCETokenRequest(_clientID!, code, new Uri("http://[::1]:5157/callback"), _verifier!)
         );
 
-        spotify.spotifyClient = new(_initialResponse.AccessToken);
+        return _initialResponse;
     }
 
     public async Task RefreshPKCEToken(Spotify spotify)
@@ -46,6 +46,6 @@ public class SpotifyAuth
         );
 
         _initialResponse = newResponse;
-        spotify.spotifyClient = new(newResponse.AccessToken);
+        spotify.RefreshToken(newResponse.AccessToken);
     }
 }

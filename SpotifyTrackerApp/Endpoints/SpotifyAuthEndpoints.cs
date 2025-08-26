@@ -1,33 +1,44 @@
+using SpotifyAPI.Web;
 using SpotifyTrackerApp.SpotifyControls;
 namespace SpotifyTrackerApp.Endpoints;
 
 public static class SpotifyAuthEndpoints
 {
-    public static RouteGroupBuilder MapEndpoints(this WebApplication app,Spotify spotify)
+    public const string AccessTokenKey = "spf-access-token";
+
+    public static RouteGroupBuilder MapAuthEndpoints(this IEndpointRouteBuilder app)
     {
-        RouteGroupBuilder group = app.MapGroup("/auth");
 
-        SpotifyAuth spotifyAuthenticator = new SpotifyAuth();
+        var group = app.MapGroup("/auth");
 
-        group.MapGet("", () =>
+        group.MapGet("", (HttpContext context) =>
         {
-            if (spotify.IsAuthenticated())
+            if (context.Request.Cookies.ContainsKey(AccessTokenKey))
                 return Results.Redirect("http://localhost:5157/spotify");
 
-            else Console.WriteLine("Spotify not connected!");
             return Results.Redirect("http://localhost:5157/auth/login");
         });
 
-        group.MapGet("/login", () =>
+        group.MapGet("/login", (SpotifyAuth spotifyAuthenticator) =>
         {
-            Uri uri = spotifyAuthenticator.GenerateLoginUri();
-
+            var uri = spotifyAuthenticator.GenerateLoginUri();
             return Results.Redirect(uri.ToString());
         });
 
-        app.MapGet("/callback", async (string code) =>
+        app.MapGet("/callback", async (string code, SpotifyAuth spotifyAuthenticator, HttpContext context) =>
         {
-            await spotifyAuthenticator.GetCallBack(code, spotify);
+            PKCETokenResponse responseToken = await spotifyAuthenticator.GetCallBack(code);
+
+            if (responseToken is not null)
+            {
+                context.Response.Cookies.Append(AccessTokenKey, responseToken.AccessToken, new CookieOptions
+                {
+                    HttpOnly = true,
+                    Secure = true,
+                    SameSite = SameSiteMode.Lax,
+                    Expires = DateTime.UtcNow.AddSeconds(responseToken.ExpiresIn)
+                });
+            }
 
             return Results.Redirect("http://localhost:5157/spotify");
         });
