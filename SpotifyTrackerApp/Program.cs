@@ -3,7 +3,7 @@ using SpotifyTrackerApp.SpotifyControls;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddScoped<Spotify>();
+builder.Services.AddScoped<SpotifyTrackerApp.SpotifyControls.Spotify>();
 builder.Services.AddSingleton<SpotifyAuth>();
 builder.Services.AddHttpContextAccessor();
 
@@ -13,7 +13,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy(name: devCorsPolicy, policy =>
     {
-        policy.WithOrigins("http://localhost:5173") 
+        policy.WithOrigins("http://[::1]:5173") 
               .AllowAnyHeader()
               .AllowAnyMethod();
     });

@@ -12,12 +12,12 @@ public class Spotify
     {
         HttpContext? context = contextAccessor.HttpContext;
 
-
-
-        if (context is not null && context.Request.Cookies.TryGetValue(SpotifyAuthEndpoints.AccessTokenKey, out var accessToken))
-            _spotifyClient = new SpotifyClient(accessToken);
+        if (context!.Request.Cookies[SpotifyAuthEndpoints.AccessTokenKey] is not null)
+            _spotifyClient = new SpotifyClient(context.Request.Cookies[SpotifyAuthEndpoints.AccessTokenKey]!);
         else
-            Console.WriteLine("token is null");
+        {
+            Console.WriteLine("Token was null");
+        }
     }
 
     public void RefreshToken(string newToken)

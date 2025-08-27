@@ -24,10 +24,12 @@ public class SpotifyAuth
         {
             CodeChallengeMethod = "S256",
             CodeChallenge = challenge,
-            Scope = new[] { Scopes.PlaylistReadPrivate, Scopes.PlaylistReadCollaborative}
+            Scope = new[] { Scopes.PlaylistReadPrivate, Scopes.PlaylistReadCollaborative }
         };
 
         return loginRequest.ToUri();
+        
+
     }
 
     public async Task<PKCETokenResponse> GetCallBack(string code)

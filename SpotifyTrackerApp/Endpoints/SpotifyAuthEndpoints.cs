@@ -5,6 +5,8 @@ namespace SpotifyTrackerApp.Endpoints;
 public static class SpotifyAuthEndpoints
 {
     public const string AccessTokenKey = "spf-access-token";
+    public const string RefreshTokenKey = "spf-refresh-token";
+
 
     public static RouteGroupBuilder MapAuthEndpoints(this IEndpointRouteBuilder app)
     {
@@ -13,10 +15,13 @@ public static class SpotifyAuthEndpoints
 
         group.MapGet("", (HttpContext context) =>
         {
-            if (context.Request.Cookies.ContainsKey(AccessTokenKey))
-                return Results.Redirect("http://localhost:5157/spotify");
+            if (context.Request.Cookies[AccessTokenKey] is not null)
+            {
+                Console.WriteLine(context.Request.Cookies[AccessTokenKey]);
+                return Results.Redirect("http://[::1]:5157/spotify");
+            }
 
-            return Results.Redirect("http://localhost:5157/auth/login");
+            return Results.Redirect("http://[::1]:5157/auth/login");
         });
 
         group.MapGet("/login", (SpotifyAuth spotifyAuthenticator) =>
@@ -34,13 +39,20 @@ public static class SpotifyAuthEndpoints
                 context.Response.Cookies.Append(AccessTokenKey, responseToken.AccessToken, new CookieOptions
                 {
                     HttpOnly = true,
-                    Secure = true,
+                    Secure = context.Request.IsHttps,
                     SameSite = SameSiteMode.Lax,
-                    Expires = DateTime.UtcNow.AddSeconds(responseToken.ExpiresIn)
+                    Expires = DateTime.UtcNow.AddHours(1)
+                });
+                context.Response.Cookies.Append(RefreshTokenKey, responseToken.RefreshToken, new CookieOptions
+                {
+                    HttpOnly = true,
+                    Secure = context.Request.IsHttps,
+                    SameSite = SameSiteMode.Lax,
+                    Expires = DateTime.UtcNow.AddHours(1)
                 });
             }
 
-            return Results.Redirect("http://localhost:5157/spotify");
+            return Results.Redirect("http://[::1]:5157/spotify");
         });
 
         return group;

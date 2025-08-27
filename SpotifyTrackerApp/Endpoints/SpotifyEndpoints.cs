@@ -9,9 +9,11 @@ public static class SpotifyEndpoints
     {
         var group = app.MapGroup("/spotify");
 
-        group.MapGet("", () =>
+        group.MapGet("", (Spotify spotify) =>
         {
-            return "Spotify Page";
+            if (spotify.IsAuthenticated)
+                return "Spotify Authenticated";
+            return "Error in spotify authentication";
         });
 
         group.MapGet("/playlist/{uri}", async (string uri, Spotify spotify) =>
@@ -29,7 +31,7 @@ public static class SpotifyEndpoints
         });
 
         group.MapGet("/album/{uri}", async (string uri, Spotify spotify) =>
-        {        
+        {       
             FullAlbum album = await spotify.GetAlbumInfoAsync(uri);
 
             return Results.Ok(new AlbumDto(album));
