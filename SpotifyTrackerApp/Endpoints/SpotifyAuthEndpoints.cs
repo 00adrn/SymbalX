@@ -52,7 +52,7 @@ public static class SpotifyAuthEndpoints
                 });
             }
 
-            return Results.Redirect("http://[::1]:5157/spotify");
+            return Results.Redirect("http://[::1]:5173/");
         });
 
         return group;

@@ -28,5 +28,6 @@ if (app.Environment.IsDevelopment())
 SpotifyEndpoints.MapSpotifyEndpoints(app);
 SpotifyAuthEndpoints.MapAuthEndpoints(app);
 
+
 app.Run();
 
