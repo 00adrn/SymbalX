@@ -6,6 +6,7 @@ public class SpotifyAuth
     private string? _clientID;
     private string? _verifier;
     private PKCETokenResponse? _initialResponse;
+    private const string rootAddress = "http://[::1]:5157";
 
     public SpotifyAuth()
     {
@@ -18,7 +19,7 @@ public class SpotifyAuth
         var (verifier, challenge) = PKCEUtil.GenerateCodes();
         _verifier = verifier;
 
-        SpotifyAPI.Web.LoginRequest loginRequest = new(new Uri("http://[::1]:5157/callback"),
+        SpotifyAPI.Web.LoginRequest loginRequest = new(new Uri($"{rootAddress}/callback"),
             _clientID!,
             SpotifyAPI.Web.LoginRequest.ResponseType.Code)
         {
@@ -35,7 +36,7 @@ public class SpotifyAuth
     public async Task<PKCETokenResponse> GetCallBack(string code)
     {
         _initialResponse = await new OAuthClient().RequestToken(
-            new PKCETokenRequest(_clientID!, code, new Uri("http://[::1]:5157/callback"), _verifier!)
+            new PKCETokenRequest(_clientID!, code, new Uri($"{rootAddress}/callback"), _verifier!)
         );
 
         return _initialResponse;
