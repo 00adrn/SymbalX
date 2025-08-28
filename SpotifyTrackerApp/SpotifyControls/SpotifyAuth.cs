@@ -6,7 +6,7 @@ public class SpotifyAuth
     private string? _clientID;
     private string? _verifier;
     private PKCETokenResponse? _initialResponse;
-    private const string rootAddress = "http://[::1]:5157";
+    private string rootAddress = File.ReadAllLines("client.txt")[1];
 
     public SpotifyAuth()
     {

@@ -17,8 +17,7 @@ public static class SpotifyAuthEndpoints
         {
             if (context.Request.Cookies[AccessTokenKey] is not null)
             {
-                Console.WriteLine(context.Request.Cookies[AccessTokenKey]);
-                return Results.Redirect("http://[::1]:5157/spotify");
+                return Results.Redirect("http://[::1]:5173/spotify");
             }
 
             return Results.Redirect("http://[::1]:5157/auth/login");

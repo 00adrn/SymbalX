@@ -29,5 +29,7 @@ SpotifyEndpoints.MapSpotifyEndpoints(app);
 SpotifyAuthEndpoints.MapAuthEndpoints(app);
 
 
+Console.WriteLine("SERVER HOSTED ON http://[::1]:5157");
+
 app.Run();
 
