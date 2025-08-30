@@ -5,7 +5,6 @@ public class SpotifyAuth
 {
     private string? _clientID;
     private string? _verifier;
-    private PKCETokenResponse? _initialResponse;
     private string rootAddress = File.ReadAllLines("client.txt")[1];
 
     public SpotifyAuth()
@@ -29,26 +28,23 @@ public class SpotifyAuth
         };
 
         return loginRequest.ToUri();
-        
-
     }
 
     public async Task<PKCETokenResponse> GetCallBack(string code)
     {
-        _initialResponse = await new OAuthClient().RequestToken(
+        PKCETokenResponse response = await new OAuthClient().RequestToken(
             new PKCETokenRequest(_clientID!, code, new Uri($"{rootAddress}/callback"), _verifier!)
         );
 
-        return _initialResponse;
+        return response;
     }
 
-    public async Task RefreshPKCEToken(Spotify spotify)
+    public async Task<PKCETokenResponse> RefreshPKCEToken(string refreshToken)
     {
         PKCETokenResponse newResponse = await new OAuthClient().RequestToken(
-            new PKCETokenRefreshRequest(_clientID!, _initialResponse!.RefreshToken)
+            new PKCETokenRefreshRequest(_clientID!, refreshToken)
         );
 
-        _initialResponse = newResponse;
-        spotify.RefreshToken(newResponse.AccessToken);
+        return newResponse;
     }
 }

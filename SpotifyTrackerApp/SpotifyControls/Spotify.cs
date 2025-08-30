@@ -1,5 +1,6 @@
 using SpotifyAPI.Web;
 using SpotifyTrackerApp.Endpoints;
+using SpotifyTrackerApp.Dtos;
 namespace SpotifyTrackerApp.SpotifyControls;
 
 public class Spotify
@@ -8,16 +9,10 @@ public class Spotify
 
     public bool IsAuthenticated => _spotifyClient is not null;
 
-    public Spotify(IHttpContextAccessor contextAccessor)
+    public Spotify(string token)
     {
-        HttpContext? context = contextAccessor.HttpContext;
+        _spotifyClient = new SpotifyClient(token);
 
-        if (context!.Request.Cookies[SpotifyAuthEndpoints.AccessTokenKey] is not null)
-            _spotifyClient = new SpotifyClient(context.Request.Cookies[SpotifyAuthEndpoints.AccessTokenKey]!);
-        else
-        {
-            Console.WriteLine("Token was null");
-        }
     }
 
     public void RefreshToken(string newToken)
@@ -25,23 +20,27 @@ public class Spotify
         _spotifyClient = new(newToken);
     }
 
-    public async Task<FullPlaylist> GetPlaylistInfoAsync(string uri)
+    public async Task<PlaylistDto?> GetPlaylistInfoAsync(string uri)
     {
-        return await _spotifyClient!.Playlists.Get(uri);
+        FullPlaylist? playlist = await _spotifyClient!.Playlists.Get(uri);
+        return playlist is not null ? new PlaylistDto(playlist) : null;
     }
 
-    public async Task<FullTrack> GetTrackInfoAsync(string uri)
+    public async Task<TrackDto?> GetTrackInfoAsync(string uri)
     {
-        return await _spotifyClient!.Tracks.Get(uri);
+        FullTrack? track = await _spotifyClient!.Tracks.Get(uri);
+        return track is not null ? new TrackDto(track) : null;
     }
 
-    public async Task<FullAlbum> GetAlbumInfoAsync(string uri)
+    public async Task<AlbumDto?> GetAlbumInfoAsync(string uri)
     {
-        return await _spotifyClient!.Albums.Get(uri);
+        FullAlbum? album = await _spotifyClient!.Albums.Get(uri);
+        return album is not null ? new AlbumDto(album) : null;
     }
 
-    public async Task<FullArtist> GetArtistInfoAsync(string uri)
+    public async Task<ArtistDto?> GetArtistInfoAsync(string uri)
     {
-        return await _spotifyClient!.Artists.Get(uri);
+        FullArtist? artist = await _spotifyClient!.Artists.Get(uri);
+        return artist is not null ? new ArtistDto(artist) : null;
     }
 }

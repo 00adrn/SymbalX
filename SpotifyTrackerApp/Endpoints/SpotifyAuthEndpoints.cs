@@ -13,11 +13,28 @@ public static class SpotifyAuthEndpoints
 
         var group = app.MapGroup("/auth");
 
-        group.MapGet("", (HttpContext context) =>
+        group.MapGet("/validate", (HttpContext context) =>
         {
+            Spotify spotify = new(context.Request.Cookies[SpotifyAuthEndpoints.AccessTokenKey]!);
+            
+            if (spotify.IsAuthenticated)
+            {
+                Console.WriteLine("Authenticated\n");
+                return Results.Ok();
+            }
+            Console.WriteLine("Not Authenticated\n");
+            return Results.NotFound();
+        });
+
+        group.MapGet("", async (HttpContext context, SpotifyAuth spotifyAuthenticator) =>
+        {
+
             if (context.Request.Cookies[AccessTokenKey] is not null)
             {
-                return Results.Redirect("http://[::1]:5173/spotify");
+                // PKCETokenResponse responseToken = await spotifyAuthenticator.RefreshPKCEToken(context.Request.Cookies[RefreshTokenKey]!);
+
+
+                return Results.Redirect("http://[::1]:5173");
             }
 
             return Results.Redirect("http://[::1]:5157/auth/login");
@@ -39,19 +56,19 @@ public static class SpotifyAuthEndpoints
                 {
                     HttpOnly = true,
                     Secure = context.Request.IsHttps,
-                    SameSite = SameSiteMode.Lax,
+                    SameSite = context.Request.IsHttps ? SameSiteMode.None : SameSiteMode.Lax,
                     Expires = DateTime.UtcNow.AddHours(1)
                 });
                 context.Response.Cookies.Append(RefreshTokenKey, responseToken.RefreshToken, new CookieOptions
                 {
                     HttpOnly = true,
                     Secure = context.Request.IsHttps,
-                    SameSite = SameSiteMode.Lax,
+                    SameSite = context.Request.IsHttps ? SameSiteMode.None : SameSiteMode.Lax,
                     Expires = DateTime.UtcNow.AddHours(1)
                 });
             }
 
-            return Results.Redirect("http://[::1]:5173/");
+            return Results.Redirect("http://localhost:5173");
         });
 
         return group;

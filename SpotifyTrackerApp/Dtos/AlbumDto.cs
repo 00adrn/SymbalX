@@ -14,7 +14,7 @@ public record class AlbumDto
 
     public AlbumDto(FullAlbum album)
     {
-        spotifyUri = album.Uri;
+        spotifyUri = album.Uri.AfterFinal(':');
         name = album.Name;
         imageUrl = album.Images.FirstOrDefault()?.Url;
         

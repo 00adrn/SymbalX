@@ -12,7 +12,7 @@ public record class TrackDto
 
     public TrackDto(FullTrack track)
     {
-        spotifyUri = track.Uri;
+        spotifyUri = track.Uri.AfterFinal(':');
         name = track.Name;
         if (track.Album.Images.Count > 0)
         {

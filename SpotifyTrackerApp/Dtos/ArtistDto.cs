@@ -11,7 +11,7 @@ public record class ArtistDto
 
     public ArtistDto(FullArtist artist)
     {
-        spotifyUri = artist.Uri;
+        spotifyUri = artist.Uri.AfterFinal(':');
         name = artist.Name;
         imageUrl = artist.Images.FirstOrDefault()!.Url;
     }

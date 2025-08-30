@@ -1,51 +1,42 @@
 <script lang="ts">
+    import { spotifyBE } from "../lib/apiRequests";
+    import type { Track } from "../lib/apiRequests"; // It's good practice to have a central types file
 
-    interface Track{
-        spotifyUri: string;
-        name: string;
-        imageUrl: string;
+    let buttonPressed = $state(false);
+
+    async function getTrackInfo(): Promise<Track | null> {
+        return await spotifyBE.fetchTrackInfo();
     }
 
-    let  { uri = "7o2AeQZzfCERsRmOM86EcB"} = $props();
-
-    async function fetchTrack(trackUri: string): Promise<Track> {
-
-        const response = await fetch('/api/spotify:track:${encodeURIComponent(trackUri)}')
-
-        if (!response.ok)
-            throw new Error('Failed to fetch track. stats: ${response.status}');
-
-            const data = await response.json();
-
-            return {
-                spotifyUri: data.uri,
-                name: data.name,
-                imageUrl: data.album.images[0].url
-            };
-
+    function buttonPress() {
+        buttonPressed = true;
     }
-
-    const trackPromise = fetchTrack(uri);
-
 </script>
 
-{#await trackPromise}
-    <div class="track-card loading">
-        <p>Loading track...</p>
-    </div>
-{:then track}
-    <div class="track-card">
-        <img src={track.imageUrl} alt="Album art for {track.name}" />
-        <div class="track-info">
-            <p class="track-name">{track.name}</p>
-        </div>
-    </div>
-{:catch error}
-    <div class="track-card error">
-        <p>Could not load track.</p>
-        <pre>{error.message}</pre>
-    </div>
-{/await}
+{#if !buttonPressed}
+    <button onclick={buttonPress}>Get Current Track</button>
+{:else}
+    {#await getTrackInfo()}
+        <p>Fetching track info...</p>
+    {:then trackInfo}
+        {#if trackInfo}
+            <div class="track-card">
+                <img
+                    src={trackInfo.imageUrl}
+                    alt="Album art for {trackInfo.name}"
+                    class="album-art"
+                />
+                <div class="track-details">
+                    <p class="track-name">{trackInfo.name}</p>
+                </div>
+            </div>
+        {:else}
+            <p>No track is currently playing.</p>
+        {/if}
+    {:catch error}
+        <p style="color: #f87171;">Error fetching track: {error.message}</p>
+    {/await}
+{/if}
 
 <style>
     .track-card {
@@ -53,42 +44,28 @@
         align-items: center;
         gap: 1rem;
         background-color: #282828;
-        padding: 0.75rem;
-        border-radius: 4px;
-        max-width: 350px;
-        margin: 0.5rem auto;
-        font-family: sans-serif;
+        padding: 1rem;
+        border-radius: 8px;
+        max-width: 400px;
+        margin: 1rem auto;
+        font-family: "Helvetica Neue", sans-serif;
+        color: white;
     }
-
-    .track-card.loading, .track-card.error {
-        justify-content: center;
-        color: #b3b3b3;
-    }
-
-    .track-card.error {
-        border: 1px solid #d9534f;
-        color: #d9534f;
-        flex-direction: column;
-    }
-
-    .track-card img {
+    .album-art {
         width: 64px;
         height: 64px;
         border-radius: 4px;
-        object-fit: cover;
     }
-
-    .track-info {
-        overflow: hidden;
+    .track-details {
+        display: flex;
+        flex-direction: column;
     }
-
     .track-name {
         font-weight: bold;
-        color: #fff;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
         margin: 0;
     }
-
+    .artist-name {
+        color: #b3b3b3;
+        margin: 0.25rem 0 0;
+    }
 </style>

@@ -1,6 +1,6 @@
-using SpotifyAPI.Web;
 using SpotifyTrackerApp.Dtos;
 using SpotifyTrackerApp.SpotifyControls;
+
 namespace SpotifyTrackerApp.Endpoints;
 
 public static class SpotifyEndpoints
@@ -9,39 +9,43 @@ public static class SpotifyEndpoints
     {
         var group = app.MapGroup("/api");
 
-        group.MapGet("", (Spotify spotify) =>
+        group.MapGet("/spotify:{type}:{uri}", async (string type, string uri, HttpContext context) =>
         {
-            if (spotify.IsAuthenticated)
-                return "Spotify Authenticated";
-            return "Error in spotify authentication";
-        });
 
-        group.MapGet("/spotify:playlist:{uri}", async (string uri, Spotify spotify) =>
-        {
-            FullPlaylist playlist = await spotify.GetPlaylistInfoAsync(uri);
+            Spotify spotify = new(context.Request.Cookies[SpotifyAuthEndpoints.AccessTokenKey]!);
 
-            return Results.Ok(new PlaylsitDto(playlist));
-        });
+            Console.WriteLine($"GET /{type} /{uri}");
 
-        group.MapGet("/spotify:track:{uri}", async (string uri, Spotify spotify) =>
-        {
-            FullTrack track = await spotify.GetTrackInfoAsync(uri);
+            if (!spotify.IsAuthenticated)
+            {
+                Console.WriteLine("Unauthorized Request\n");
+                return Results.Unauthorized();
+            }
+            else
+                Console.WriteLine("Authorized Request\n");
 
-            return Results.Ok(new TrackDto(track));
-        });
+            switch (type)
+                {
+                    case "playlist":
+                        PlaylistDto? playlist = await spotify.GetPlaylistInfoAsync(uri);
+                        return Results.Ok(playlist);
 
-        group.MapGet("/spotify:album:{uri}", async (string uri, Spotify spotify) =>
-        {       
-            FullAlbum album = await spotify.GetAlbumInfoAsync(uri);
+                    case "track":
+                        TrackDto? track = await spotify.GetTrackInfoAsync(uri);
+                        return Results.Ok(track);
 
-            return Results.Ok(new AlbumDto(album));
-        });
+                    case "album":
+                        AlbumDto? album = await spotify.GetAlbumInfoAsync(uri);
+                        return Results.Ok(album);
 
-        group.MapGet("/spotify:artist:{uri}", async (string uri, Spotify spotify) =>
-        {
-            FullArtist artist = await spotify.GetArtistInfoAsync(uri);
+                    case "artist":
+                        ArtistDto? artist = await spotify.GetArtistInfoAsync(uri);
+                        return Results.Ok(artist);
 
-            return Results.Ok(new ArtistDto(artist));
+                    default:
+                        return Results.NotFound();
+
+                }                
         });
 
         return group;
