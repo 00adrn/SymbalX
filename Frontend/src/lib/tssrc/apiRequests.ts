@@ -1,8 +1,6 @@
-export interface Track{
-        spotifyUri: string;
-        name: string;
-        imageUrl: string;
-    }
+import type { Track } from '../tssrc/Track';
+import type { Artist } from '../tssrc/Track'
+
 
 async function startAuthentication() {
     window.location.href = "http://[::1]:5157/auth";
@@ -26,7 +24,17 @@ async function fetchCurrentTrackInfo(): Promise<Track> {
     
     let data = await response.json();
 
-    return { spotifyUri: data.spotifyUri, name: data.name, imageUrl: data.imageUrl };
+    const artists: Artist[] = data.artists.map((artist: any) => ({
+        name: artist.name,
+        spotifyUri: artist.spotifyUri,
+    }));
+
+
+    return { 
+        spotifyUri: data.spotifyUri, 
+        name: data.name, imageUrl: 
+        data.imageUrl, 
+        artists: artists};
 }
 
 export const spotifyBE = { startAuthentication, verifyLogin, fetchCurrentTrackInfo }

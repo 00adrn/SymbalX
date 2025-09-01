@@ -77,7 +77,7 @@ public static class SpotifyAuthEndpoints
 
         group.MapGet("refresh-token", async (HttpContext context) =>
         {
-            await CookieRefresher.RefreshTokenCookies(context);
+            CookieRefresher.RefreshTokenCookies(context);
             return Results.Redirect("http://localhost:5173");
         });
 
@@ -90,17 +90,17 @@ public static class CookieRefresher
 {
     public const string AccessTokenKey = "spf-access-token";
     public const string RefreshTokenKey = "spf-refresh-token";
-    public static async Task<string> RefreshTokenCookies(HttpContext context)
+    public static async void RefreshTokenCookies(HttpContext context)
     {
         SpotifyAuth authenticator = new();
 
         context.Response.Cookies.Delete(AccessTokenKey);
         context.Response.Cookies.Delete(RefreshTokenKey);
 
-        return AddCookies(await authenticator.RefreshPKCEToken(context.Request.Cookies[RefreshTokenKey]!), context);
+        AddCookies(await authenticator.RefreshPKCEToken(context.Request.Cookies[RefreshTokenKey]!), context);
     }
 
-    public static string AddCookies(PKCETokenResponse responseToken, HttpContext context)
+    public static void AddCookies(PKCETokenResponse responseToken, HttpContext context)
     {
         context.Response.Cookies.Append(AccessTokenKey, responseToken.AccessToken, new CookieOptions
         {
@@ -119,6 +119,5 @@ public static class CookieRefresher
         });
 
         Console.WriteLine($"Cookies Refreshed\nNew Access Token: {responseToken.AccessToken}\n\nNew Refresh Token: {responseToken.RefreshToken}\n");
-        return responseToken.AccessToken;
         }
 }

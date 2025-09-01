@@ -2,7 +2,7 @@ using SpotifyTrackerApp.Endpoints;
 using SpotifyTrackerApp.SpotifyControls;
 
 var builder = WebApplication.CreateBuilder(args);
-
+ 
 builder.Services.AddSingleton<SpotifyAuth>();
 builder.Services.AddHttpContextAccessor();
 

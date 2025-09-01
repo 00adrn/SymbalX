@@ -1,6 +1,6 @@
 <script lang="ts">
-  import Track from './lib/Track.svelte'
-  import AuthButton from './lib/AuthButton.svelte'
+  import Track from './lib/sveltesrc/Track.svelte'
+  import AuthButton from './lib/sveltesrc/AuthButton.svelte'
 
 </script>
 

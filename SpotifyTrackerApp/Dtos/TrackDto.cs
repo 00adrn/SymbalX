@@ -8,7 +8,7 @@ public record class TrackDto
     public string? spotifyUri { get; set;}
     public string? name { get; set;}
     public string? imageUrl { get; set;}
-    // public ArtistDto? artist { get; set;}
+    public ArtistDto? artist { get; set;}
 
     public TrackDto(FullTrack track)
     {
@@ -18,7 +18,7 @@ public record class TrackDto
         {
             imageUrl = track.Album.Images.FirstOrDefault()!.Url;
         }
-        // artist = new ArtistDto(track.Artists.FirstOrDefault()!);
+        artist = new ArtistDto(track.Artists.FirstOrDefault()!);
     }
 
     public TrackDto(SimpleTrack track)
@@ -26,6 +26,6 @@ public record class TrackDto
         spotifyUri = track.Uri;
         name = track.Name;
         imageUrl = null;
-        // artist = null;
+        artist = null;
     }
 }

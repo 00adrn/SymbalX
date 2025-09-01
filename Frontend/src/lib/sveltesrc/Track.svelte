@@ -1,6 +1,6 @@
 <script lang="ts">
-    import { spotifyBE } from "../lib/apiRequests";
-    import type { Track } from "../lib/apiRequests"; // It's good practice to have a central types file
+    import { spotifyBE } from "../tssrc/apiRequests";
+    import type { Track } from "../tssrc/Types";
 
     let buttonPressed = $state(false);
 
@@ -28,6 +28,9 @@
                 />
                 <div class="track-details">
                     <p class="track-name">{trackInfo.name}</p>
+                    {#each trackInfo.artists as artist}
+                        <p class="artist-name">{artist.name}</p>
+                    {/each}
                 </div>
             </div>
         {:else}

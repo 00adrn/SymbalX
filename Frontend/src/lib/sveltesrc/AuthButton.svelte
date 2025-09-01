@@ -1,5 +1,5 @@
 <script lang="ts">
-    import {spotifyBE} from '../lib/apiRequests';
+    import {spotifyBE} from '../tssrc/apiRequests';
     import {onMount} from 'svelte';
 
     let loggedIn = $state(false);
