@@ -16,8 +16,8 @@ async function verifyLogin(){
     return false;
 }
 
-async function fetchTrackInfo(): Promise<Track> {
-    const response = await fetch('http://[::1]:5157/api/spotify:track:2xPWRDQkXFTmLPiO7IL6gu', {
+async function fetchCurrentTrackInfo(): Promise<Track> {
+    const response = await fetch('http://[::1]:5157/api/current-track', {
         credentials: 'include'
     });
 
@@ -29,4 +29,4 @@ async function fetchTrackInfo(): Promise<Track> {
     return { spotifyUri: data.spotifyUri, name: data.name, imageUrl: data.imageUrl };
 }
 
-export const spotifyBE = { startAuthentication, verifyLogin, fetchTrackInfo }
+export const spotifyBE = { startAuthentication, verifyLogin, fetchCurrentTrackInfo }

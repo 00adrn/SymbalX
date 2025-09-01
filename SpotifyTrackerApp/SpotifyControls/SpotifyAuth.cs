@@ -24,7 +24,14 @@ public class SpotifyAuth
         {
             CodeChallengeMethod = "S256",
             CodeChallenge = challenge,
-            Scope = new[] { Scopes.PlaylistReadPrivate, Scopes.PlaylistReadCollaborative }
+            Scope = new[] { Scopes.PlaylistReadPrivate,
+                            Scopes.PlaylistReadCollaborative,
+                            Scopes.UserReadCurrentlyPlaying,
+                            Scopes.UserFollowRead,
+                            Scopes.UserReadPlaybackState,
+                            Scopes.UserReadRecentlyPlayed,
+                            Scopes.UserTopRead,
+                            Scopes.UserReadPrivate }
         };
 
         return loginRequest.ToUri();

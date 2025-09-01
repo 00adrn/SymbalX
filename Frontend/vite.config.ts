@@ -11,6 +11,7 @@ export default defineConfig({
     proxy: {
       '/api': {
         target: 'http://[::1]:5157',
+        
         changeOrigin: true,
         secure: false, // Use this if your backend has a self-signed SSL certificate.
       }

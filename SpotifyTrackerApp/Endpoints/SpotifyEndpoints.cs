@@ -12,40 +12,61 @@ public static class SpotifyEndpoints
         group.MapGet("/spotify:{type}:{uri}", async (string type, string uri, HttpContext context) =>
         {
 
-            Spotify spotify = new(context.Request.Cookies[SpotifyAuthEndpoints.AccessTokenKey]!);
+            string token = context.Request.Cookies[SpotifyAuthEndpoints.AccessTokenKey]!;
 
             Console.WriteLine($"GET /{type} /{uri}");
 
-            if (!spotify.IsAuthenticated)
+            if (token == null || token == string.Empty)
             {
-                Console.WriteLine("Unauthorized Request\n");
-                return Results.Unauthorized();
+                Console.WriteLine($"Token read error\n");
+                return Results.Ok();
             }
-            else
-                Console.WriteLine("Authorized Request\n");
 
+            Spotify spotify = new(token);
+            
             switch (type)
-                {
-                    case "playlist":
-                        PlaylistDto? playlist = await spotify.GetPlaylistInfoAsync(uri);
-                        return Results.Ok(playlist);
+            {
+                case "playlist":
+                    PlaylistDto? playlist = await spotify.GetPlaylistInfoAsync(uri);
+                    return Results.Ok(playlist);
 
-                    case "track":
-                        TrackDto? track = await spotify.GetTrackInfoAsync(uri);
-                        return Results.Ok(track);
+                case "track":
+                    TrackDto? track = await spotify.GetTrackInfoAsync(uri);
+                    return Results.Ok(track);
 
-                    case "album":
-                        AlbumDto? album = await spotify.GetAlbumInfoAsync(uri);
-                        return Results.Ok(album);
+                case "album":
+                    AlbumDto? album = await spotify.GetAlbumInfoAsync(uri);
+                    return Results.Ok(album);
 
-                    case "artist":
-                        ArtistDto? artist = await spotify.GetArtistInfoAsync(uri);
-                        return Results.Ok(artist);
+                case "artist":
+                    ArtistDto? artist = await spotify.GetArtistInfoAsync(uri);
+                    return Results.Ok(artist);
 
-                    default:
-                        return Results.NotFound();
+                default:
+                    return Results.NotFound();
+            }
+        });
 
-                }                
+        group.MapGet("current-track", async (HttpContext context) =>
+        {
+            string token = context.Request.Cookies[SpotifyAuthEndpoints.AccessTokenKey]!;
+
+            Console.WriteLine($"GET /current-track");
+
+            if (token == null || token == string.Empty)
+            {
+                Console.WriteLine($"Token read error\n");
+                return Results.Ok();
+            }
+
+            Spotify spotify = new(token);
+
+            TrackDto? track = await spotify.GetCurrentTrackInfoAsync();
+            if (track == null)
+            {
+                return Results.Ok("No current Track");
+            }
+            return Results.Ok(track);
         });
 
         return group;

@@ -7,17 +7,17 @@ public class Spotify
 {
     private SpotifyClient? _spotifyClient;
 
-    public bool IsAuthenticated => _spotifyClient is not null;
+    public bool IsAuthenticated
+    {
+        get
+        {
+            return _spotifyClient is not null;
+        }
+    }
 
     public Spotify(string token)
     {
         _spotifyClient = new SpotifyClient(token);
-
-    }
-
-    public void RefreshToken(string newToken)
-    {
-        _spotifyClient = new(newToken);
     }
 
     public async Task<PlaylistDto?> GetPlaylistInfoAsync(string uri)
@@ -43,4 +43,14 @@ public class Spotify
         FullArtist? artist = await _spotifyClient!.Artists.Get(uri);
         return artist is not null ? new ArtistDto(artist) : null;
     }
+
+    public async Task<TrackDto?> GetCurrentTrackInfoAsync()
+    {
+        CurrentlyPlaying currentlyPlaying = await _spotifyClient!.Player.GetCurrentlyPlaying(new PlayerCurrentlyPlayingRequest());
+        var trackItem = currentlyPlaying.Item;
+        if (trackItem is FullTrack track1) return new TrackDto(track1);
+        return null;
+    }
+
+    
 }

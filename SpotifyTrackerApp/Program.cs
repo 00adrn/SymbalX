@@ -6,10 +6,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddSingleton<SpotifyAuth>();
 builder.Services.AddHttpContextAccessor();
 
-
 builder.Services.AddCors(options =>
 {
-    options.AddDefaultPolicy( policy =>
+    options.AddPolicy( "Allow Frontend", policy =>
     {
         policy.WithOrigins("http://localhost:5173")
               .AllowAnyHeader()
@@ -19,8 +18,7 @@ builder.Services.AddCors(options =>
 });
 
 var app = builder.Build();
-
-app.UseCors();
+app.UseCors("Allow Frontend");
 
 
 SpotifyEndpoints.MapSpotifyEndpoints(app);

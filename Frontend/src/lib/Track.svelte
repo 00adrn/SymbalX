@@ -5,7 +5,7 @@
     let buttonPressed = $state(false);
 
     async function getTrackInfo(): Promise<Track | null> {
-        return await spotifyBE.fetchTrackInfo();
+        return await spotifyBE.fetchCurrentTrackInfo();
     }
 
     function buttonPress() {
