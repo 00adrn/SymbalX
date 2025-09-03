@@ -1,5 +1,5 @@
 <script lang="ts">
-  import Track from './lib/sveltesrc/Track.svelte'
+  import CurrentTrack from './lib/sveltesrc/CurrentTrack.svelte'
   import AuthButton from './lib/sveltesrc/AuthButton.svelte'
 
 </script>
@@ -9,7 +9,7 @@
     <hr />
     <h1>Spotify Tracker</h1>
     <hr />
-    <Track />
+    <CurrentTrack />
 </main>
 
 <style>

@@ -1,5 +1,5 @@
-import type { Track } from '../tssrc/Track';
-import type { Artist } from '../tssrc/Track'
+import type { Track } from '../tssrc/types';
+import type { Artist } from '../tssrc/types';
 
 
 async function startAuthentication() {
@@ -23,6 +23,7 @@ async function fetchCurrentTrackInfo(): Promise<Track> {
             throw new Error(`Failed to fetch track. Status: ${response.status}`);
     
     let data = await response.json();
+
 
     const artists: Artist[] = data.artists.map((artist: any) => ({
         name: artist.name,

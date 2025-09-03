@@ -3,13 +3,12 @@ namespace SpotifyTrackerApp.SpotifyControls;
 
 public class SpotifyAuth
 {
-    private string? _clientID;
+    private string? _clientID = File.ReadAllLines("client.txt")[0];
     private string? _verifier;
     private string rootAddress = File.ReadAllLines("client.txt")[1];
 
     public SpotifyAuth()
     {
-        _clientID = File.ReadAllLines("client.txt")[0];
     }
 
 

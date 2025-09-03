@@ -1,5 +1,6 @@
 using SpotifyTrackerApp.Dtos;
 using SpotifyTrackerApp.SpotifyControls;
+using SpotifyAPI.Web;
 
 namespace SpotifyTrackerApp.Endpoints;
 
@@ -49,24 +50,32 @@ public static class SpotifyEndpoints
 
         group.MapGet("current-track", async (HttpContext context) =>
         {
-            string token = context.Request.Cookies[SpotifyAuthEndpoints.AccessTokenKey]!;
-
-            Console.WriteLine($"GET /current-track");
-
-            if (token == null || token == string.Empty)
+            try
             {
-                Console.WriteLine($"Token read error\n");
-                return Results.Ok();
+                string token = context.Request.Cookies[SpotifyAuthEndpoints.AccessTokenKey]!;
+
+                Console.WriteLine($"GET /current-track");
+
+                if (token == null || token == string.Empty)
+                {
+                    Console.WriteLine($"Token read error\n");
+                    return Results.Ok();
+                }
+
+                Spotify spotify = new(token);
+
+                TrackDto? track = await spotify.GetCurrentTrackInfoAsync();
+                if (track == null)
+                {
+                    return Results.Ok("No current Track");
+                }
+                return Results.Ok(track);
             }
-
-            Spotify spotify = new(token);
-
-            TrackDto? track = await spotify.GetCurrentTrackInfoAsync();
-            if (track == null)
+            catch
             {
-                return Results.Ok("No current Track");
+                FullTrack? track = null;
+                return Results.Ok(new TrackDto(track));
             }
-            return Results.Ok(track);
         });
 
         return group;
