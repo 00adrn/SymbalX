@@ -1,20 +1,7 @@
 import type { Track } from '../tssrc/types';
 import type { Artist } from '../tssrc/types';
 
-
-async function startAuthentication() {
-    window.location.href = "http://[::1]:5157/auth";
-}
-
-async function verifyLogin(){
-    const response = await fetch('http://[::1]:5157/auth/validate', {
-        credentials: 'include'
-    });
-    if (response.ok) return true;
-    return false;
-}
-
-async function fetchCurrentTrackInfo(): Promise<Track> {
+async function fetchCurrentTrackInfo(): Promise<Track|null> {
     const response = await fetch('http://[::1]:5157/api/current-track', {
         credentials: 'include'
     });
@@ -24,6 +11,8 @@ async function fetchCurrentTrackInfo(): Promise<Track> {
     
     let data = await response.json();
 
+    if (data.spotifyUri == null)
+        return null;
 
     const artists: Artist[] = data.artists.map((artist: any) => ({
         name: artist.name,
@@ -38,4 +27,4 @@ async function fetchCurrentTrackInfo(): Promise<Track> {
         artists: artists};
 }
 
-export const spotifyBE = { startAuthentication, verifyLogin, fetchCurrentTrackInfo }
+export const spotifyBE = {fetchCurrentTrackInfo }

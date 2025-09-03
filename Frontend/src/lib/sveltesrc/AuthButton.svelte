@@ -1,17 +1,14 @@
 <script lang="ts">
-    import {spotifyBE} from '../tssrc/apiRequests';
     import {onMount} from 'svelte';
-    import {checkLoginStatus} from '../sveltejssrc/logInInfo.svelte.js'
-    import {refreshLoginStatus} from '../sveltejssrc/logInInfo.svelte.js'
-
+    import {authenticator} from '../sveltejssrc/logInInfo.svelte.js'
     let isLoading = $state(true);
 
     async function login() {
-        spotifyBE.startAuthentication();
+        authenticator.startAuthentication();
     }
 
     onMount(async () => {
-        refreshLoginStatus();
+        authenticator.refreshLoginStatus();
         isLoading = false;
     });
 
@@ -19,7 +16,7 @@
 
 {#if isLoading}
     <p>Loading...</p>
-{:else if !checkLoginStatus()}
+{:else if !authenticator.checkLoginStatus()}
     <button onclick = { login }>
         Login
     </button>

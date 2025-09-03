@@ -21,6 +21,7 @@
     {:then trackInfo}
         {#if trackInfo}
             <div class="track-card">
+
                 <img
                     src={trackInfo.imageUrl}
                     alt="Album art for {trackInfo.name}"

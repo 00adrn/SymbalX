@@ -1,5 +1,4 @@
 using SpotifyAPI.Web;
-using SpotifyTrackerApp.Endpoints;
 using SpotifyTrackerApp.Dtos;
 namespace SpotifyTrackerApp.SpotifyControls;
 
@@ -50,6 +49,12 @@ public class Spotify
         var trackItem = currentlyPlaying.Item;
         if (trackItem is FullTrack track1) return new TrackDto(track1);
         return null;
+    }
+
+    public async Task<ProfileDto?> GetProfileInfoAsync()
+    {
+        PrivateUser profile = await _spotifyClient!.UserProfile.Current();
+        return profile is not null ? new ProfileDto(profile) : null;
     }
 
     

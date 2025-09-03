@@ -6,9 +6,29 @@ namespace SpotifyTrackerApp.Endpoints;
 
 public static class SpotifyEndpoints
 {
+    
+    
     public static RouteGroupBuilder MapSpotifyEndpoints(this IEndpointRouteBuilder app)
     {
         var group = app.MapGroup("/api");
+
+        group.MapGet("/user-info", async (HttpContext context) =>
+        {
+            string token = context.Request.Cookies[SpotifyAuthEndpoints.AccessTokenKey]!;
+
+            Console.WriteLine($"GET /user-info");
+
+            if (token == null || token == string.Empty)
+            {
+                Console.WriteLine($"Token read error\n");
+                return Results.Ok();
+            }
+
+            Spotify spotify = new(token);
+
+            ProfileDto?  profile = await spotify.GetProfileInfoAsync();
+            return Results.Ok(profile);
+        }); 
 
         group.MapGet("/spotify:{type}:{uri}", async (string type, string uri, HttpContext context) =>
         {
@@ -24,7 +44,7 @@ public static class SpotifyEndpoints
             }
 
             Spotify spotify = new(token);
-            
+
             switch (type)
             {
                 case "playlist":

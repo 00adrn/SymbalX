@@ -40,17 +40,6 @@ public static class SpotifyAuthEndpoints
             return Results.Unauthorized();
         });
 
-        group.MapGet("", (HttpContext context) =>
-        {
-
-            if (context.Request.Cookies[AccessTokenKey] is not null && context.Request.Cookies[RefreshTokenKey] is not null)
-            {
-                return Results.Redirect("http://localhost:5173");
-            }
-
-            return Results.Redirect("http://[::1]:5157/auth/login");
-        });
-
         group.MapGet("/login", (SpotifyAuth spotifyAuthenticator) =>
         {
             var loginUri = spotifyAuthenticator.GenerateLoginUri();
@@ -68,18 +57,6 @@ public static class SpotifyAuthEndpoints
             }
 
             return Results.NotFound();
-        });
-
-
-        group.MapGet("/home", (HttpContext context, SpotifyAuth authenticator) =>
-        {
-            return Results.Ok("home page");
-        });
-
-        group.MapGet("refresh-token", async (HttpContext context) =>
-        {
-            CookieRefresher.RefreshTokenCookies(context);
-            return Results.Redirect("http://localhost:5173");
         });
 
         return group;
