@@ -1,5 +1,24 @@
-import type { Track } from '../tssrc/types';
-import type { Artist } from '../tssrc/types';
+import type { Track, Artist, Profile } from '../tssrc/types';
+
+
+async function fetchProfileInfo(): Promise<Profile> {
+    const response = await fetch('http://[::1]:5157/api/profile-info', {
+        credentials: 'include'
+    });
+
+    if (!response.ok)
+        throw new Error(`Failed to fetch profile. Status: ${response.status}`);
+
+    let data = await response.json();
+
+
+    return {
+        spotifyUri: data.spotifyUri,
+        userName: data.userName,
+        imageUrl: data.imageUrl
+    }
+}
+
 
 async function fetchCurrentTrackInfo(): Promise<Track|null> {
     const response = await fetch('http://[::1]:5157/api/current-track', {
@@ -27,4 +46,4 @@ async function fetchCurrentTrackInfo(): Promise<Track|null> {
         artists: artists};
 }
 
-export const spotifyBE = {fetchCurrentTrackInfo }
+export const spotifyBE = {fetchCurrentTrackInfo, fetchProfileInfo}

@@ -1,3 +1,9 @@
+export interface Profile{
+    spotifyUri: string;
+    userName: string;
+    imageUrl: string;
+}
+
 export interface Track {
         spotifyUri: string;
         name: string;

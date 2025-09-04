@@ -1,9 +1,36 @@
 <script lang="ts">
+    import ProfileCard from './ProfileCard.svelte'
+    import AuthButton from './AuthButton.svelte'
+    import {onMount} from 'svelte';
+    import {authenticator} from '../sveltejssrc/logInInfo.svelte.js'
+    import type {Profile} from "../tssrc/types"
+    import { spotifyBE } from "../tssrc/apiRequests";
+
+    onMount(async () => {
+        authenticator.refreshLoginStatus();
+    });
+
+    async function fetchTrackInfo(): Promise<Profile|null> {
+        if (!authenticator.checkLoginStatus())
+            return null;
+        return await spotifyBE.fetchProfileInfo()
+    }
 
 </script>
 
 <div class = "navbar">
     <p class="navbar-title">symbalx</p>
+    <div class="navbar-profile">
+        {#if !authenticator.checkLoginStatus()}
+            <AuthButton />
+        {:else}
+            {#await fetchTrackInfo()}
+            <p>Loading...</p>
+            {:then profile}
+            <ProfileCard profileInfo={profile} />
+            {/await}
+        {/if}
+    </div>
 </div>
 
 <style >
@@ -26,5 +53,11 @@
         font-weight: bold;
         color: white;
         letter-spacing: 8px
+    }
+    .navbar-profile {
+        display: flex;
+        flex-direction: row;
+        position: fixed;
+        right: 0;
     }
 </style>

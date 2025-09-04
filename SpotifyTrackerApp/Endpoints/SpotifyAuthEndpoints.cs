@@ -15,7 +15,7 @@ public static class SpotifyAuthEndpoints
 
         group.MapGet("/validate", async (HttpContext context) =>
         {
- 
+
             if (context.Request.Cookies[AccessTokenKey] is not null)
             {
                 string token = context.Request.Cookies[AccessTokenKey]!;
@@ -29,11 +29,12 @@ public static class SpotifyAuthEndpoints
                     Spotify spotify = new(token);
                     var testTrack = await spotify.GetTrackInfoAsync("2eIcjpotUGm07AaySZyaD6");
                 }
-                catch (Exception e)
+                catch
                 {
-                    await CookieRefresher.RefreshTokenCookies(context);
+                    Console.WriteLine($"Validation Error: Expired Token\n");
+                    return Results.Unauthorized();
                 }
-                Console.WriteLine($"Validation Success: Cookie read successfully\n");
+                Console.WriteLine("Validation Success: Cookie Successfully found\n");
                 return Results.Ok();
             }
             Console.WriteLine("Validation Error: Authentication Cookie Not Found\n");
@@ -72,16 +73,18 @@ public static class CookieRefresher
     {
         SpotifyAuth authenticator = new();
 
-        context.Response.Cookies.Delete(AccessTokenKey);
-        context.Response.Cookies.Delete(RefreshTokenKey);
-
         Console.WriteLine("attempting to refresh");
-
         AddCookies(await authenticator.RefreshPKCEToken(context.Request.Cookies[RefreshTokenKey]!), context);
     }
 
     public static void AddCookies(PKCETokenResponse responseToken, HttpContext context)
     {
+        if (context.Request.Cookies[RefreshTokenKey] is not null)
+        {
+            context.Response.Cookies.Delete(AccessTokenKey);
+            context.Response.Cookies.Delete(RefreshTokenKey);
+        }
+
         context.Response.Cookies.Append(AccessTokenKey, responseToken.AccessToken, new CookieOptions
         {
             HttpOnly = true,
@@ -97,6 +100,6 @@ public static class CookieRefresher
             Domain = "[::1]"
         });
 
-        Console.WriteLine($"Cookies Refreshed\nNew Access Token: {responseToken.AccessToken}\n\nNew Refresh Token: {responseToken.RefreshToken}\n");
-        }
+        Console.WriteLine($"Cookies Added\nNew Access Token: {responseToken.AccessToken}\nNew Refresh Token: {responseToken.RefreshToken}\n");
+    }
 }

@@ -12,7 +12,7 @@ public static class SpotifyEndpoints
     {
         var group = app.MapGroup("/api");
 
-        group.MapGet("/user-info", async (HttpContext context) =>
+        group.MapGet("/profile-info", async (HttpContext context) =>
         {
             string token = context.Request.Cookies[SpotifyAuthEndpoints.AccessTokenKey]!;
 
