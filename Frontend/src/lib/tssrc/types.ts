@@ -5,20 +5,20 @@ export interface Profile{
 }
 
 export interface Track {
-        spotifyUri: string;
-        name: string;
-        imageUrl: string;
-        artists: Artist[];
-    }
+    spotifyUri: string;
+    name: string;
+    imageUrl: string;
+    artists: Artist[];
+}
 
 export interface Artist {
-    uri: string;
+    spotifyUri: string;
     name: string;
     imageUrl: string;
 }
 
 export interface Album {
-    uri: string;
+    spotifyUri: string;
     name: string;
     imageUrl: string;
     artists: Artist[];
@@ -26,8 +26,14 @@ export interface Album {
 }
 
 export interface Playlist {
-    uri: string;
+    spotifyUri: string;
     name: string;
     imageUrl: string;
     tracks: Track[];
+}
+
+export interface SimplePlaylist {
+    spotifyUri: string;
+    name: string;
+    imageUrl: string;
 }

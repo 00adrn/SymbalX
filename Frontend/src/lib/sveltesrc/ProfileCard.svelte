@@ -16,21 +16,18 @@
         flex-direction: row;
         align-items: center;
         justify-content: center;
-        padding: 4px;
-        font-size: 12px;
-        font-family: sans-serif;
-        font-weight: bold;
-        letter-spacing: 2px;
-        margin-left: 4px;
-        margin-right:  4px;
+        gap: 0.5em;
+        margin: 0 0.5em 0 0.5em;
         }
     .profile-card-text{
-        margin-left: 4px;
+        font-size: 1.2em;
+        font-family: sans-serif;
+        font-weight: bold;
+        letter-spacing: 0.1em;
     }
     .profile-card-picture {
-        margin-right: 4px;
         border-radius: 50%;
-        max-width: 3em;
-        max-height: 3em;
+        width: 2.0em;
+        height: 2.0em;
         }
 </style>

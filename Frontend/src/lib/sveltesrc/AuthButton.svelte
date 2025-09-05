@@ -11,7 +11,13 @@
     </button>
 <style>
     button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
         margin: 4px;
+        height: 2em;
+        width: 5em;
+        font-size: 0.8em
     }
 </style>
 

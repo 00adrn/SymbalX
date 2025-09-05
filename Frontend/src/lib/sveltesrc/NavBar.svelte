@@ -4,7 +4,7 @@
     import {onMount} from 'svelte';
     import {authenticator} from '../sveltejssrc/logInInfo.svelte.js'
     import type {Profile} from "../tssrc/types"
-    import { spotifyBE } from "../tssrc/apiRequests";
+    import { spotifyApi } from "../tssrc/apiRequests";
 
     onMount(async () => {
         authenticator.refreshLoginStatus();
@@ -13,7 +13,7 @@
     async function fetchTrackInfo(): Promise<Profile|null> {
         if (!authenticator.checkLoginStatus())
             return null;
-        return await spotifyBE.fetchProfileInfo()
+        return await spotifyApi.fetchProfileInfo()
     }
 
 </script>
@@ -41,18 +41,18 @@
         top: 0;
         left: 0;
         width: 100%;
-        height: 52px;
+        height: 4em;
         background-color: #3d754c;
         border-radius: 0, 0, 8px, 8px;
+        gap: 0.5em;
     }
     .navbar-title {
-        font-size: 20px;
+        font-size: 2em;
         font-family: sans-serif;
-        padding-left: 12px;
-        padding-right: 8px;
         font-weight: bold;
         color: white;
-        letter-spacing: 8px
+        letter-spacing: 8px;
+        margin: 0 0.5em 0 0.5em;
     }
     .navbar-profile {
         display: flex;

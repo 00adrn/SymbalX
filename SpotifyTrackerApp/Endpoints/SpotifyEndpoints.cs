@@ -35,7 +35,7 @@ public static class SpotifyEndpoints
 
             string token = context.Request.Cookies[SpotifyAuthEndpoints.AccessTokenKey]!;
 
-            Console.WriteLine($"GET /{type} /{uri}");
+            Console.WriteLine($"GET /spotify:{type}:{uri}");
 
             if (token == null || token == string.Empty)
             {
@@ -96,6 +96,24 @@ public static class SpotifyEndpoints
                 FullTrack? track = null;
                 return Results.Ok(new TrackDto(track));
             }
+        });
+
+        group.MapGet("all-playlists", async (HttpContext context) =>
+        {
+            string token = context.Request.Cookies[SpotifyAuthEndpoints.AccessTokenKey]!;
+
+            Console.WriteLine($"GET /all-playlists");
+
+            if (token == null || token == string.Empty)
+            {
+                Console.WriteLine($"Token read error\n");
+                return Results.Ok();
+            }
+
+            Spotify spotify = new(token);
+            
+            List<SimplePlaylistDto>? playlist = await spotify.GetAllPlaylistsAsync();
+            return Results.Ok(playlist);
         });
 
         return group;

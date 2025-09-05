@@ -57,5 +57,12 @@ public class Spotify
         return profile is not null ? new ProfileDto(profile) : null;
     }
 
+    public async Task<List<SimplePlaylistDto>?> GetAllPlaylistsAsync()
+    {
+        PrivateUser? user = await _spotifyClient!.UserProfile.Current();
+        string userId = user.Id;
+        var playlists = await _spotifyClient!.Playlists.GetUsers(userId);
+        return playlists is not null ? playlists.Items!.Select(playlist => new SimplePlaylistDto(playlist)).ToList() : null;
+    }
     
 }
