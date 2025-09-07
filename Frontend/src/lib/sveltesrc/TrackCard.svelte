@@ -27,7 +27,6 @@
         align-items: center;
         width:100%;
         height: 5em;
-        gap: 0.5rem;
         background-color: #282828;
         padding: 0.5em;
         border-radius: 8px;

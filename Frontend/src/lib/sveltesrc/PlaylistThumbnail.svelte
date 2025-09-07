@@ -2,16 +2,24 @@
 import type {SimplePlaylist} from "../tssrc/types"
 
 let {playlistInfo} : {playlistInfo: SimplePlaylist} = $props();
+let playlistLink = $state("http://localhost:5173/playlist/" + playlistInfo.spotifyUri)
 </script>
 
 <div class="playlist-card">
     <img src={playlistInfo.imageUrl} alt="Album Art" class="playlist-image"/>
     <div class="track-details">
-        <p class="playlist-name">{playlistInfo.name}</p>
+        <p class="playlist-name"><a href={playlistLink}>{playlistInfo.name}</a></p>
     </div>
 </div>
 
 <style>
+    a{
+        color: white;
+        text-decoration: underline;
+        text-decoration-color: white;
+        font-family: "Helvetica Neue", sans-serif;
+        font-weight: bold;
+    }
     .playlist-card {
         display: flex;
         align-items: center;
@@ -24,20 +32,12 @@ let {playlistInfo} : {playlistInfo: SimplePlaylist} = $props();
         max-width: 400px;
         font-family: "Helvetica Neue", sans-serif;
         color: white;
+        margin: 0.5em 0 0.5em 0
     }
     .playlist-image {
         width: 64px;
         height: 64px;
         border-radius: 4px;
-    }
-    .track-details {
-        display: flex;
-        flex-direction: column;
-        align-items: start;
-        text-wrap: nowrap;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
     }
     .playlist-name {
         font-weight: bold;
