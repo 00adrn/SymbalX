@@ -19,7 +19,7 @@
 </script>
 
 <div class = "navbar">
-    <p class="navbar-title">symbalx</p>
+        <p class="navbar-title"><a href="localhost:5173/" >symbalx</a></p>
     <div class="navbar-profile">
         {#if !authenticator.checkLoginStatus()}
             <AuthButton />
@@ -54,10 +54,18 @@
         letter-spacing: 8px;
         margin: 0 0.5em 0 0.5em;
     }
+    .navbar-title a {
+        color: white;
+        text-decoration: none;
+        text-decoration-color: white;
+        font-family: "Helvetica Neue", sans-serif;
+        font-weight: bold;
+    }
     .navbar-profile {
         display: flex;
         flex-direction: row;
         position: fixed;
         right: 0;
     }
+
 </style>

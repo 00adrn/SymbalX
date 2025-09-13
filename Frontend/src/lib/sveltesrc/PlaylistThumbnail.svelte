@@ -15,7 +15,7 @@ let playlistLink = $state("http://localhost:5173/playlist/" + playlistInfo.spoti
 <style>
     a{
         color: white;
-        text-decoration: underline;
+        text-decoration: none;
         text-decoration-color: white;
         font-family: "Helvetica Neue", sans-serif;
         font-weight: bold;

@@ -4,8 +4,10 @@
 
     import PlaylistThumbnail from "./PlaylistThumbnail.svelte"
 
-
+    let { filteredSearchTerm } = $props();
 </script>
+
+<p>{filteredSearchTerm}</p>
 
 {#if authenticator.checkLoginStatus()}
     {#await spotifyApi.fetchAllUserPlaylists()}
@@ -13,7 +15,11 @@
     {:then playlists}
     <div class="playlist-container"> 
         {#each playlists as playlist}
-            <PlaylistThumbnail playlistInfo={playlist} />
+            {#if filteredSearchTerm == ''}
+                <PlaylistThumbnail playlistInfo={playlist} />
+            {:else if playlist.name.toLowerCase().includes(filteredSearchTerm.toLowerCase())}
+                <PlaylistThumbnail playlistInfo={playlist} />
+            {/if}
         {/each}
         </div>
     {/await}
