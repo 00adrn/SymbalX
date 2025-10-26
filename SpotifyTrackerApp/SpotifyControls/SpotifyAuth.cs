@@ -1,14 +1,20 @@
 using SpotifyAPI.Web;
+using dotenv.net;
 namespace SpotifyTrackerApp.SpotifyControls;
+
 
 public class SpotifyAuth
 {
-    private string? _clientID = File.ReadAllLines("client.txt")[0];
+    private string? _clientID;
     private string? _verifier;
-    private string rootAddress = File.ReadAllLines("client.txt")[1];
+    private string rootAddress;
 
     public SpotifyAuth()
     {
+        DotEnv.Load();
+        var envVars = DotEnv.Read();
+        _clientID = envVars["CLIENT_ID"];
+        rootAddress = envVars["API"];
     }
 
 

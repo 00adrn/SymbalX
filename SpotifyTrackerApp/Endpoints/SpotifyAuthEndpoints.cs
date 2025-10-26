@@ -7,15 +7,13 @@ public static class SpotifyAuthEndpoints
     public const string AccessTokenKey = "spf-access-token";
     public const string RefreshTokenKey = "spf-refresh-token";
 
-
-    public static RouteGroupBuilder MapAuthEndpoints(this IEndpointRouteBuilder app)
+    public static RouteGroupBuilder MapAuthEndpoints(this IEndpointRouteBuilder app, IDictionary<string, string> envVars)
     {
 
         var group = app.MapGroup("/auth");
 
         group.MapGet("/validate", async (HttpContext context) =>
         {
-
             if (context.Request.Cookies[AccessTokenKey] is not null)
             {
                 string token = context.Request.Cookies[AccessTokenKey]!;
@@ -54,7 +52,7 @@ public static class SpotifyAuthEndpoints
             if (responseToken is not null)
             {
                 CookieRefresher.AddCookies(responseToken, context);
-                return Results.Redirect("http://localhost:5173");
+                return Results.Redirect(envVars["API_LOCAL"]);
             }
 
             return Results.NotFound();

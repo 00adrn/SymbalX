@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("SpotifyTrackerApp")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0cffd5ce31967ebc0f81034106ca2b381d292f1f")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+12f76db707f76c5cb71fbd9041205edee97232d2")]
 [assembly: System.Reflection.AssemblyProductAttribute("SpotifyTrackerApp")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SpotifyTrackerApp")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

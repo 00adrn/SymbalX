@@ -1,14 +1,14 @@
 using SpotifyTrackerApp.Dtos;
 using SpotifyTrackerApp.SpotifyControls;
 using SpotifyAPI.Web;
+using dotenv.net;
 
 namespace SpotifyTrackerApp.Endpoints;
 
 public static class SpotifyEndpoints
 {
     
-    
-    public static RouteGroupBuilder MapSpotifyEndpoints(this IEndpointRouteBuilder app)
+    public static RouteGroupBuilder MapSpotifyEndpoints(this IEndpointRouteBuilder app, IDictionary<string, string> envVars)
     {
         var group = app.MapGroup("/api");
 
@@ -34,7 +34,6 @@ public static class SpotifyEndpoints
         {
 
             string token = context.Request.Cookies[SpotifyAuthEndpoints.AccessTokenKey]!;
-
             Console.WriteLine($"GET /spotify:{type}:{uri}");
 
             if (token == null || token == string.Empty)

@@ -7,8 +7,8 @@ public class PlaylistDto
 {
     public string? spotifyUri { get; set; }
     public string? name { get; set; }
+    public List<TrackDto>? tracks { get; set; }
     public string? imageUrl { get; set; }
-    public List<TrackDto>? tracks { get;  set; }
 
     public PlaylistDto(FullPlaylist playlist)
     {

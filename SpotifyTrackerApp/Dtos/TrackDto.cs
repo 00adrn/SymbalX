@@ -7,8 +7,8 @@ public record class TrackDto
 {
     public string? spotifyUri { get; set; }
     public string? name { get; set; }
-    public string? imageUrl { get; set; }
     public List<ArtistDto>? artists { get; set; }
+    public string? imageUrl { get; set; }
 
     public TrackDto(FullTrack? track)
     {
