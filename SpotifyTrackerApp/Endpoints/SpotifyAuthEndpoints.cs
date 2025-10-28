@@ -52,7 +52,7 @@ public static class SpotifyAuthEndpoints
             if (responseToken is not null)
             {
                 CookieRefresher.AddCookies(responseToken, context);
-                return Results.Redirect(envVars["API_LOCAL"]);
+                return Results.Redirect(envVars["FRONTEND"]);
             }
 
             return Results.NotFound();

@@ -11,6 +11,10 @@ public static class SpotifyEndpoints
     public static RouteGroupBuilder MapSpotifyEndpoints(this IEndpointRouteBuilder app, IDictionary<string, string> envVars)
     {
         var group = app.MapGroup("/api");
+        group.MapGet("", async (HttpContext context) =>
+        {
+            return Results.Ok("reached a movie");
+        }); 
 
         group.MapGet("/profile-info", async (HttpContext context) =>
         {
