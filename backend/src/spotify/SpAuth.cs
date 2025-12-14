@@ -3,22 +3,23 @@ using dotenv.net;
 
 namespace backend.src.spotify;
 
-public class SpAuth
+public class SpAuth 
 {
-    private string _clientId;
-    private string _backendUrl;
-    private string _verifier = "";
-    public SpAuth()
+    private readonly string _clientId;
+    private readonly string _backendUrl;
+    private readonly IHttpContextAccessor _context;
+    public SpAuth(IHttpContextAccessor http)
     {
         DotEnv.Load();
         var env = DotEnv.Read();
         _clientId = env["clientId"];
         _backendUrl = env["backendUrl"];
+        _context = http;
     }
     public IResult RedirectToLogin()
     {
         var (verifier, challenge) = PKCEUtil.GenerateCodes();
-        _verifier = verifier;
+        _context.HttpContext?.Session.SetString("verifier", verifier);
         LoginRequest request = new LoginRequest(new Uri($"{_backendUrl}/auth/callback"), _clientId, LoginRequest.ResponseType.Code)
         {
             CodeChallengeMethod = "S256",
@@ -35,8 +36,9 @@ public class SpAuth
     
     public async Task<PKCETokenResponse> HandleCallback (string responseCode)
     {
+        string? verifier = _context.HttpContext?.Session.GetString("verifier");
         var response = await new OAuthClient().RequestToken(
-            new PKCETokenRequest(_clientId, responseCode, new Uri($"{_backendUrl}/auth/callback"), _verifier)
+            new PKCETokenRequest(_clientId, responseCode, new Uri($"{_backendUrl}/auth/callback"), verifier)
         );
         return response;
     }
