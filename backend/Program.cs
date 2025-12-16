@@ -1,6 +1,5 @@
-    using dotenv.net;
-    using backend.src.spotify;
-using Microsoft.Extensions.Options;
+using dotenv.net;
+using backend.src.spotify;
 
 DotEnv.Load();
     var env = DotEnv.Read();
@@ -23,19 +22,7 @@ DotEnv.Load();
 
     app.UseSession();
 
-    app.MapGet("/", (IHttpContextAccessor context) =>
-    {
-        string? code = context.HttpContext?.Session.GetString("verifier");
-        return Results.Ok(code);
-    });
-    app.MapGet("/auth/login", (SpAuth auth) =>
-    {
-        return auth.RedirectToLogin();
-    });
-    app.MapGet("/auth/callback", async (string code, SpAuth auth) =>
-    {
-        await auth.HandleCallback(code);
-        return Results.Ok();
-    });
+    
+
     Console.WriteLine($"{env["backendUrl"]}/auth/login");
     app.Run();

@@ -16,7 +16,7 @@ public class SpAuth
         _backendUrl = env["backendUrl"];
         _context = http;
     }
-    public IResult RedirectToLogin()
+    public Uri RedirectToLogin()
     {
         var (verifier, challenge) = PKCEUtil.GenerateCodes();
         _context.HttpContext?.Session.SetString("verifier", verifier);
@@ -30,17 +30,19 @@ public class SpAuth
                             Scopes.UserFollowRead,
                             Scopes.UserReadPrivate }
         };
-        Uri redirectUri =  request.ToUri();
-        return Results.Redirect(redirectUri.ToString());
+        Uri redirectUri = request.ToUri();
+        return redirectUri;
     }
     
-    public async Task<PKCETokenResponse> HandleCallback (string responseCode)
+    public async Task<bool> HandleCallback (string responseCode)
     {
         string? verifier = _context.HttpContext?.Session.GetString("verifier");
+        if (String.IsNullOrEmpty(verifier))
+            return false;
         var response = await new OAuthClient().RequestToken(
             new PKCETokenRequest(_clientId, responseCode, new Uri($"{_backendUrl}/auth/callback"), verifier)
         );
-        return response;
+        return true;
     }
 
 }
