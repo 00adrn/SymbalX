@@ -1,12 +1,14 @@
 using dotenv.net;
 using backend.src.spotify;
+using backend.src.endpoints;
 
 DotEnv.Load();
-    var env = DotEnv.Read();
+    var env = DotEnv.Read().ToDictionary();
 
     var builder = WebApplication.CreateBuilder(args);
 
     builder.Services.AddScoped<SpAuth>();
+    builder.Services.AddScoped<SpApi>();
     builder.Services.AddHttpContextAccessor();
     builder.Services.AddDistributedMemoryCache();
     builder.Services.AddSession(options =>
@@ -22,7 +24,8 @@ DotEnv.Load();
 
     app.UseSession();
 
-    
+    app.MapSpAuth(env);
+    app.MapSpApiEndpoints(env);
 
     Console.WriteLine($"{env["backendUrl"]}/auth/login");
     app.Run();

@@ -5,30 +5,31 @@ namespace backend.src.endpoints;
 
 public static class MapSpAuthEndpoints
 {
-    public static RouteGroupBuilder MapSpAuth(this IEndpointRouteBuilder app, IDictionary<string, string> env)
+    public static RouteGroupBuilder MapSpAuth(this IEndpointRouteBuilder app, Dictionary<string, string> env)
     {
         var group = app.MapGroup("/auth");
 
-
-        app.MapGet("/", (IHttpContextAccessor context) =>
+        group.MapGet("/", (IHttpContextAccessor context) =>
         {
             string? verifer = context.HttpContext?.Session.GetString("verifier");
             if (String.IsNullOrEmpty(verifer))
                 return Results.Redirect($"{env["backendUrl"]}/auth/login");
-            return Results.Ok();
+
+            return Results.Ok("Successfully logged in.");
         });
 
-        app.MapGet("/login", (SpAuth auth) =>
+        group.MapGet("/login", (SpAuth auth) =>
         {
-            Uri requestUri = auth.RedirectToLogin();
+            Uri requestUri = auth.GenerateLoginUri();
             return Results.Redirect(requestUri.ToString());
         });
 
-        app.MapGet("/callback", async (string code, SpAuth auth) =>
+        group.MapGet("/callback", async (string code, SpAuth auth) =>
         {
             bool res = await auth.HandleCallback(code);
             if (res)
-                return Results.Ok();
+                return Results.Redirect($"{env["backendUrl"]}/auth");
+            
             return Results.BadRequest();
         });
 

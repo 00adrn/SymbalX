@@ -11,8 +11,4 @@
     <PackageReference Include="SpotifyAPI.Web" Version="7.2.1" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="src\spotify\" />
-  </ItemGroup>
-
 </Project>
