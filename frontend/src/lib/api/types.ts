@@ -1,0 +1,27 @@
+export interface Artist {
+    spotifyUri: string;
+    name: string;
+    imageUrl: string | null;
+}
+
+export interface Track {
+    spotifyUri: string;
+    name: string;
+    imageUrl: string | null;
+    artists: Artist[];
+}
+
+export interface Album {
+    spotifyUri: string;
+    name: string;
+    imageUrl: string | null;
+    arttists: Artist[];
+    tracks: Track[];
+}
+
+export interface Playlists {
+    spotifyUri: string;
+    name: string;
+    imageUrl: string | null;
+    tracks: Track[];
+}

@@ -9,6 +9,12 @@ public record class Artist
     public string name {get; set;}
     public string? imageUrl {get; set;}
 
+    public Artist()
+    {
+        spotifyUri = "null";
+        name = "null";
+        imageUrl = "null";
+    }
     public Artist(FullArtist artist)
     {
         spotifyUri = artist.Uri;

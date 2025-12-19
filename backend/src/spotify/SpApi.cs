@@ -1,6 +1,7 @@
 using System;
 using SpotifyAPI.Web;
 using backend.src.dtos;
+using System.Reflection.Metadata.Ecma335;
 namespace backend.src.spotify;
 
 public class SpApi
@@ -14,8 +15,7 @@ public class SpApi
         else
             spotify = null;
     }
-    
-    public async Task<Track> GetCurrentTrack()
+    public async Task<Track> GetCurrentTrackAsync()
     {
         if (spotify is null)
             return new Track();
@@ -24,33 +24,40 @@ public class SpApi
         Track res = new Track();
         if (resp.Item is FullTrack track) 
             res = new Track(track);
-
         return res;
     }
-
-    public async Task<Track> GetTrackInfo(string uri)
+    public async Task<Track> GetTrackAsync(string uri)
     {
         if (spotify is null)
             return new Track();
         
         var resp = await spotify.Tracks.Get(uri);
-        Track res = new Track();
-        if (resp is FullTrack track)
-            res = new Track(track);
-
-        return res;
+        return resp is null ? new Track() : new Track(resp);
     }
-
-    public async Task<Album> GetAlbumInfo(string uri)
+    public async Task<Album> GetAlbumAsync(string uri)
     {
         if (spotify is null)
             return new Album();
         
         var resp = await spotify.Albums.Get(uri);
-        Album res = new Album();
-        if (resp is FullAlbum album)
-            res = new Album(album);
+        return resp is null ? new Album() : new Album(resp);
+    }
 
-        return res;
+    public async Task<Artist> GetArtistAsync(string uri)
+    {
+        if (spotify is null)
+            return new Artist();
+
+        var resp = await spotify.Artists.Get(uri);
+        return resp is null ? new Artist() : new Artist(resp);
+    }
+
+    public async Task<Playlist> GetPlaylistAsync(string uri)
+    {
+        if (spotify is null)
+            return new Playlist();
+
+        var resp = await spotify.Playlists.Get(uri);
+        return resp is null ? new Playlist() : new Playlist(resp);
     }
 }
