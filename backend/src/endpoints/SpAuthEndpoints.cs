@@ -9,11 +9,12 @@ public static class MapSpAuthEndpoints
     {
         var group = app.MapGroup("/auth");
 
+
         group.MapGet("/", (IHttpContextAccessor context) =>
         {
             string? verifer = context.HttpContext?.Session.GetString("verifier");
             if (String.IsNullOrEmpty(verifer))
-                return Results.Redirect($"{env["backendUrl"]}/auth/login");
+                return Results.Redirect($"{env["BACKENDURL"]}/auth/login");
 
             return Results.Ok("Successfully logged in.");
         });
@@ -28,7 +29,7 @@ public static class MapSpAuthEndpoints
         {
             bool res = await auth.HandleCallback(code);
             if (res)
-                return Results.Redirect($"{env["backendUrl"]}/auth");
+                return Results.Redirect($"{env["BACKENDURL"]}/auth");
             
             return Results.BadRequest();
         });

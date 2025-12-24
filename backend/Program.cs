@@ -3,29 +3,39 @@ using backend.src.spotify;
 using backend.src.endpoints;
 
 DotEnv.Load();
-    var env = DotEnv.Read().ToDictionary();
+var env = DotEnv.Read().ToDictionary();
 
-    var builder = WebApplication.CreateBuilder(args);
+var builder = WebApplication.CreateBuilder(args);
 
-    builder.Services.AddScoped<SpAuth>();
-    builder.Services.AddScoped<SpApi>();
-    builder.Services.AddHttpContextAccessor();
-    builder.Services.AddDistributedMemoryCache();
-    builder.Services.AddSession(options =>
+builder.Services.AddScoped<SpAuth>();
+builder.Services.AddScoped<SpApi>();
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(1);
+    options.Cookie.Name = "sessionId";
+    options.Cookie.SameSite = SameSiteMode.Lax;
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: "frontendpolicy", policy =>
     {
-        options.IdleTimeout = TimeSpan.FromMinutes(1);
-        options.Cookie.Name = "sessionId";
-        options.Cookie.SameSite = SameSiteMode.Lax;
-        options.Cookie.HttpOnly = true;
-        options.Cookie.IsEssential = true;
+        policy.WithOrigins(env["FRONTENDURL"], env["BACKENDURL"])
+              .AllowCredentials()
+              .AllowAnyHeader();
     });
+});
 
-    var app = builder.Build();
+var app = builder.Build();
 
-    app.UseSession();
+app.UseSession();
+app.UseCors("frontendpolicy");
 
-    app.MapSpAuth(env);
-    app.MapSpApiEndpoints(env);
+app.MapSpAuth(env);
+app.MapSpApiEndpoints(env);
 
-    Console.WriteLine($"{env["backendUrl"]}/auth/login");
-    app.Run();
+Console.WriteLine($"{env["BACKENDURL"]}/auth/login");
+app.Run();

@@ -1,9 +1,16 @@
-import { BACKENDURL } from "$env/static/private"
+import { PUBLIC_BACKENDURL } from "$env/static/public"
 import type { Track } from "$lib/api/types";
 
+async function 
 
-export const getCurrentTrack = async (): Promise<Track> => {
-    const response = await fetch(`${BACKENDURL}/api/current-track`);
+async function getCurrentTrack() : Promise<Track> {
+    const response = await fetch(`${PUBLIC_BACKENDURL}/api/current-track`, {
+        credentials: "include"
+    });
     const data = await response.json();
     return data;
+}
+
+export const api = {
+    getCurrentTrack
 }

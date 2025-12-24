@@ -13,7 +13,7 @@ public class SpAuth
         DotEnv.Load();
         var env = DotEnv.Read();
         _clientId = env["clientId"];
-        _backendUrl = env["backendUrl"];
+        _backendUrl = env["BACKENDURL"];
         _context = http;
     }
     public Uri GenerateLoginUri()
