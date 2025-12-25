@@ -27,8 +27,10 @@ export const GET: RequestHandler = async ({ url, cookies }) => {
 
     const data = await response.json();
 
-    cookies.set("accessToken", data.access_token, { path: "/", httpOnly: true });
-    cookies.set("refreshToken", data.refresh_token, { path: "/", httpOnly: true });
+    cookies.set("accessToken", data.access_token, { path: "/", httpOnly: true, maxAge: data.expires_in });
+    cookies.set("refreshToken", data.refresh_token, { path: "/", httpOnly: true, maxAge: data.expires_in});
+
+    console.log("Cookie expires in : " + data.expires_in);
 
     redirect(302, "/");
 }

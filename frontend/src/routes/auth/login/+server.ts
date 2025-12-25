@@ -17,7 +17,7 @@ export const GET: RequestHandler = async ({ cookies }) => {
         path: "/auth",
         httpOnly: true,
         sameSite: "lax",
-        maxAge: 60 * 60
+        maxAge: 60 * 5
     });
 
     redirect(302, "https://accounts.spotify.com/authorize?" + params.toString());

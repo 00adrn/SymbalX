@@ -10,6 +10,7 @@ public class SpApi
     public SpApi(IHttpContextAccessor http)
     {
         string? accessToken = http.HttpContext?.Request.Cookies["accessToken"];
+        Console.WriteLine(accessToken);
         if (accessToken != null)
             spotify = new(accessToken);
         else
