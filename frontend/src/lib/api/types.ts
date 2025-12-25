@@ -15,7 +15,7 @@ export interface Album {
     spotifyUri: string;
     name: string;
     imageUrl: string | null;
-    arttists: Artist[];
+    artists: Artist[];
     tracks: Track[];
 }
 

@@ -20,8 +20,6 @@ public static class SpApiEndpoints
 
         group.MapGet("/get-info", async (string uri, SpApi api) =>
         {
-            //Spotify uris look like this: spotify:artist:somerandomcode
-            //By just splicing the query it allows me to only make one endpoint.
             string[] splitUri = uri.Split(":");
             string type = splitUri[1];
             string id = splitUri[2];

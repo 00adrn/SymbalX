@@ -25,11 +25,12 @@ public static class MapSpAuthEndpoints
             return Results.Redirect(requestUri.ToString());
         });
 
-        group.MapGet("/callback", async (string code, SpAuth auth) =>
+        group.MapGet("/callback", async (string code, SpAuth auth, IHttpContextAccessor context) =>
         {
             bool res = await auth.HandleCallback(code);
-            if (res)
-                return Results.Redirect($"{env["BACKENDURL"]}/auth");
+            if (res) {
+                return Results.Redirect($"{env["FRONTENDURL"]}");
+            }
             
             return Results.BadRequest();
         });
