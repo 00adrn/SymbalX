@@ -9,8 +9,8 @@ public class SpApi
     private SpotifyClient? spotify = null;
     public SpApi(IHttpContextAccessor http)
     {
-        string? accessToken = http.HttpContext?.Request.Cookies["accessToken"];
-        Console.WriteLine(accessToken);
+        string? accessToken = http.HttpContext?.Request.Headers.Authorization.ToString().Split(" ")[1];
+        Console.WriteLine("Token: " + accessToken);
         if (accessToken != null)
             spotify = new(accessToken);
         else

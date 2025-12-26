@@ -4,7 +4,7 @@
     import type { Track } from "$lib/api/types"
     let track : Track | undefined = $state();
     let isLoggedIn = $state(false);
-    onMount(async () =>{
+    onMount(async () => {
         const resp = await fetch("/auth/status", {
             method: "GET",
             credentials: "include"});
@@ -14,8 +14,12 @@
         if (data != "null")
             isLoggedIn = true;
 
-
-        track = await api.getCurrentTrack();
+        let trackresp = await fetch("/api/current-track", {
+            method: "GET",
+            credentials: "include"
+        });
+        
+        track = await trackresp.json();
     });
 
     function test() {
