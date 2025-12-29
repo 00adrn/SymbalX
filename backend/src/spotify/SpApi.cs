@@ -10,11 +10,15 @@ public class SpApi
     public SpApi(IHttpContextAccessor http)
     {
         string? accessToken = http.HttpContext?.Request.Headers.Authorization.ToString().Split(" ")[1];
-        Console.WriteLine("Token: " + accessToken);
-        if (accessToken != null)
+
+        if (accessToken != null)  {
             spotify = new(accessToken);
-        else
+            Console.WriteLine("Spotify object successfully instantiated.");
+        }
+        else {
             spotify = null;
+            Console.WriteLine("Spotify object failed to instantiate.");
+        }
     }
     public async Task<Track> GetCurrentTrackAsync()
     {
@@ -23,8 +27,9 @@ public class SpApi
 
         var resp = await spotify.Player.GetCurrentlyPlaying(new PlayerCurrentlyPlayingRequest());
         Track res = new Track();
-        if (resp.Item is FullTrack track) 
+        if (resp is not null && resp.Item is FullTrack track) 
             res = new Track(track);
+        
         return res;
     }
     public async Task<Track> GetTrackAsync(string uri)

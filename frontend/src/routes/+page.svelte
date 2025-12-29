@@ -3,6 +3,7 @@
     import { onMount } from "svelte";
     import type { Track } from "$lib/api/types"
     let track : Track | undefined = $state();
+    let testTrack : Track | undefined = $state();
     let isLoggedIn = $state(false);
     onMount(async () => {
         const resp = await fetch("/auth/status", {
@@ -20,6 +21,13 @@
         });
         
         track = await trackresp.json();
+
+        let testTrackresp = await (fetch("/api/get-info?type=track&uri=0symmj4uSnBmiMblgJb5BZ", {
+            method: "GET",
+            credentials: "include"
+        }))
+
+        testTrack = await testTrackresp.json();
     });
 
     function test() {
@@ -41,4 +49,10 @@
     <p>Loading</p>
 {:else}
     <p>{track.name}</p>
+{/if}   
+
+{#if testTrack == null}
+    <p>Loading</p>
+{:else}
+    <p>{testTrack.name}</p>
 {/if}

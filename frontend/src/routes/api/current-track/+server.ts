@@ -11,7 +11,7 @@ export const GET: RequestHandler = async ({ cookies }) => {
         headers: {
             Authorization: "Bearer " + accessToken
         }
-    })
+    });
 
     const track : Track = await response.json();
 

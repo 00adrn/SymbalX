@@ -19,7 +19,7 @@ export interface Album {
     tracks: Track[];
 }
 
-export interface Playlists {
+export interface Playlist {
     spotifyUri: string;
     name: string;
     imageUrl: string | null;
