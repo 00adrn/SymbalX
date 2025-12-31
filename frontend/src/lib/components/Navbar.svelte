@@ -1,11 +1,14 @@
 <script>
-    let { isLoggedIn } = $props();
+    let { data } = $props();
 
 </script>
 
 <div class="nav">
+    <div>
+        <p>symbalx</p>
+    </div>
     <ul>
-        {#if isLoggedIn}
+        {#if data.isLoggedIn}
             <li><a href="/profile">Profile</a></li>
         {:else}
             <li><a href="/auth/login">Login</a></li>
@@ -19,6 +22,7 @@
         background-color: grey;
         overflow: hidden;
         display: flex;
+        flex-direction: row;
         justify-items: space-between;
         align-items: center;
         padding: 0;
@@ -33,11 +37,15 @@
     }
     .nav li {
         font-size: 2.4rem;
-        padding: 2px 10px 2px 0;
+        padding: .2rem 1rem .2rem 0;
         height: 100%;
     }
     .nav a {
         text-decoration: none;
         color: black;
+    }
+    .nav p {
+        padding: .2rem 1rem;
+        font-size: 2.4rem;
     }
 </style>

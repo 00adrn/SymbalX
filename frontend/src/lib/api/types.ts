@@ -25,3 +25,9 @@ export interface Playlist {
     imageUrl: string | null;
     tracks: Track[];
 }
+
+export interface Profile {
+    spotifyUri: string;
+    name: string;
+    imageUrl: string;
+}

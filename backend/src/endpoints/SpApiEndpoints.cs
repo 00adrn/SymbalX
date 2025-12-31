@@ -18,6 +18,20 @@ public static class SpApiEndpoints
             return Results.Ok(track);
         });
 
+        group.MapGet("/profile-info", async (SpApi api) =>
+        {
+            Console.WriteLine("Endpoint hit on backend: /api/profile-info");
+            Profile profile = await api.GetProfileInfoAsync();
+            return Results.Ok(profile);
+        });
+
+        group.MapGet("/profile-playlists", async (SpApi api) =>
+        {
+            Console.WriteLine("Endpoint hit on backend: /api/profile-playlists");
+            List<Playlist> playlists = await api.GetAllPlaylistsAsync();
+            return Results.Ok(playlists);
+        });
+
         group.MapGet("/get-info", async (string uri, SpApi api) =>
         {
             string[] splitUri = uri.Split(":");

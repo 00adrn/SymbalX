@@ -66,4 +66,25 @@ public class SpApi
         var resp = await spotify.Playlists.Get(uri);
         return resp is null ? new Playlist() : new Playlist(resp);
     }
+
+    public async Task<Profile> GetProfileInfoAsync()
+    {
+        if (spotify is null)
+            return new Profile();
+
+        var resp = await spotify.UserProfile.Current();
+        return resp is null ? new Profile() : new Profile(resp);
+    }
+
+    public async Task<List<Playlist>> GetAllPlaylistsAsync()
+    {
+        if (spotify is null)
+            return new List<Playlist>();
+            
+        var profile = await spotify.UserProfile.Current();
+        string userId = profile.Id;
+
+        var playlists = await spotify.Playlists.GetUsers(userId);
+        return playlists is null ? new List<Playlist>() : playlists.Items!.Select(playlist => new Playlist(playlist, false)).ToList(); 
+    }
 }

@@ -16,16 +16,19 @@ public record class Playlist
         imageUrl = "null";
         tracks = new List<Track>();
     }
-    public Playlist(FullPlaylist playlist)
+    public Playlist(FullPlaylist playlist, bool readTracks = true)
     {
         spotifyUri = playlist.Uri!;
         name = playlist.Name!;
         imageUrl = playlist.Images![0].Url;
         tracks = new List<Track>();
-        foreach (var playableItem in playlist.Tracks!.Items!)
-        {
-            if (playableItem.Track is FullTrack track)
-                tracks.Add(new Track(track));
-        }
+        if (readTracks)
+            foreach (var playableItem in playlist.Tracks!.Items!)
+            {
+                if (playableItem.Track is FullTrack track)
+                    tracks.Add(new Track(track));
+            }
+        else
+            tracks = new List<Track>();
     }
 }
