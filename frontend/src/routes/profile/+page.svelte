@@ -6,4 +6,8 @@
 
 <h1>Profile page</h1>
 
-<h2>Logged in as {data.profile.name}</h2>
+{#if data.profile}
+    <h2>Logged in as {data.profile.name}</h2>
+{:else}
+    <h2>You are not currently logged in</h2>
+{/if}
