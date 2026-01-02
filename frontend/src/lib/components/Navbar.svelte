@@ -19,6 +19,7 @@
 
 <style>
     .nav {
+        position: fixed;
         background-color: grey;
         overflow: hidden;
         display: flex;
@@ -27,6 +28,8 @@
         align-items: center;
         padding: 0;
         width: 100%;
+        border: solid black;
+        border-width: 0.01rem 0;
     }
     .nav ul {
         width: 100%;
