@@ -1,35 +1,37 @@
 <script>
-    let { data } = $props();
+    let { data, colors } = $props();
+    let deg = 180;
+
 
 </script>
 
-<div class="nav">
+<div class="nav" style="--deg: {deg}deg; --color-0: {colors[0]}; --color-1: {colors[1]};">
     <div>
-        <p>symbalx</p>
+        <p><a class="title-button" href="/home">symbalx</a></p>
     </div>
     <ul>
         {#if data.isLoggedIn}
-            <li><a href="/profile">Profile</a></li>
+            <li><a class="nav-button" href="/profile">Profile</a></li>
         {:else}
-            <li><a href="/auth/login">Login</a></li>
+            <li><a class="nav-button" href="/auth/login">Login</a></li>
         {/if}
-        <li><a href="/home">Home</a></li>
+        <li><a class="nav-button" href="/home">Home</a></li>
     </ul>
 </div>
 
 <style>
     .nav {
-        position: fixed;
-        background-color: grey;
+        position: sticky;
+        top: 0;
+        background: linear-gradient(var(--deg),var(--color-1), var(--color-0));
         overflow: hidden;
         display: flex;
         flex-direction: row;
         justify-items: space-between;
         align-items: center;
-        padding: 0;
-        width: 100%;
-        border: solid black;
-        border-width: 0.01rem 0;
+        color: white;
+        border: solid gray;
+        border-width: 1px 0;
     }
     .nav ul {
         width: 100%;
@@ -38,17 +40,16 @@
         justify-content: flex-end;
         align-items: center;
     }
-    .nav li {
-        font-size: 2.4rem;
-        padding: .2rem 1rem .2rem 0;
-        height: 100%;
-    }
-    .nav a {
+    .nav .title-button {
         text-decoration: none;
-        color: black;
-    }
-    .nav p {
-        padding: .2rem 1rem;
+        color: white;
+        padding: 1rem;
         font-size: 2.4rem;
+    }
+    .nav .nav-button {
+        text-decoration: none;
+        color: white;
+        padding: 0 2rem 0 0;
+        font-size: 1.4rem;
     }
 </style>

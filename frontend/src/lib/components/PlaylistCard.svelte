@@ -1,13 +1,10 @@
 <script lang="ts">
-    import type { Playlist } from "$lib/api/types";
+    const deg = 22.5
+    let { playlist, colors } = $props();
 
-    let colors = ["#252530", "#2e2d38"];
-    let deg = 22.5;
-
-    let { playlist }: { playlist: Playlist } = $props();
 </script>
 
-<div class="playlist-card" style="--deg: {deg}deg; --gradient-1: {colors[0]}; --gradient-2: {colors[1]};">
+<div class="playlist-card" style="--deg: {deg}deg; --color-0: {colors[0]}; --color-1: {colors[1]};">
     <img src={playlist.imageUrl} alt={playlist.name} />
     <p>{playlist.name}</p>
 </div>
@@ -19,9 +16,10 @@
         width: 100%;
         gap: 1rem;
         align-items: center;
-        background: linear-gradient(var(--deg),var(--gradient-1), var(--gradient-2));
+        background: linear-gradient(var(--deg),var(--color-0), var(--color-1));
         border-radius: 0.4rem;
-        /* border: 0.01rem solid white; */
+        border: solid gray;
+        border-width: 0 1px 1px 0;
     }
     .playlist-card img {
         width: 4rem;

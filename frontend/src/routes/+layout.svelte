@@ -1,9 +1,8 @@
 <script lang="ts">
     import favicon from "$lib/assets/favicon.svg";
     import Navbar from "$lib/components/Navbar.svelte";
-    import { onMount } from "svelte";
+    import "@fontsource-variable/nunito-sans"
     import "../styles.css";
-
     let { children, data } = $props();
 </script>
 
@@ -11,6 +10,14 @@
     <link rel="icon" href={favicon} />
 </svelte:head>
 
-<Navbar {data}/>
-
+<Navbar data={data} colors={data.colors}/>
 {@render children()}
+
+
+<style>
+    :global(html) {
+        font-family: "Nunito Sans Variable", sans-serif;
+        font-weight: bold;
+    }
+    
+</style>

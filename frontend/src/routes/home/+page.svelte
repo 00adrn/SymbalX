@@ -1,31 +1,45 @@
 <script>
     import PlaylistContainer from "$lib/components/PlaylistContainer.svelte";
-
-    let colors = ["#252530", "#2e2d38"];
-    let deg = 22.5;
+    let deg = 180;
 
     let { data } = $props();
 </script>
 
-<div class="body" style="--deg: {deg}deg; --gradient-1: {colors[0]}; --gradient-2: {colors[1]};">
-    <h1>Home page of symbalx</h1>
-    {#if data.isLoggedIn}
-        <div class="plc-container">
-            <PlaylistContainer playlists={data.playlists}/>
-        </div>
-    {:else}
+<div class="body" style="--deg: {deg}deg; --color-0: {data.colors[0]}; --color-1: {data.colors[1]}; --color-2: {data.colors[2]};">
+    {#if !data.isLoggedIn}
         <p>You are not logged in</p>
+    {:else}
+        <div class="body-row">
+            <div class="component-container">
+                <PlaylistContainer playlists={data.playlists} colors={data.colors}/>
+            </div>
+        </div>
+        
     {/if}
 </div>
 
 <style>
-    .body{
-        background: linear-gradient(var(--deg),var(--gradient-1), var(--gradient-2));
+    .body {
+        padding: 2rem;
+        width: 100%;
+        height: 100vh;
+        background: linear-gradient(var(--deg),var(--color-0), var(--color-1));
+        display: flex;
+        justify-content: flex-start;
+        flex-direction: column;
+        gap: 1rem;
+        overflow-y: scroll;
+        scrollbar-width: .2rem; 
+        scrollbar-color: var(--color-0) var(--color-2);
     }
-    .plc-container{
-        width: 50%;
-        
+    .body-row {
         display: flex;
         flex-direction: row;
+        gap: 1rem;
+    }
+    .component-container {
+        border-radius: .4rem;
+        border: 1px gray solid;
+        overflow: hidden;
     }
 </style>
