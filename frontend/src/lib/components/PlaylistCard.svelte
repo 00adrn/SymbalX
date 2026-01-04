@@ -1,7 +1,6 @@
 <script lang="ts">
     const deg = 22.5
     let { playlist, colors } = $props();
-
 </script>
 
 <div class="playlist-card" style="--deg: {deg}deg; --color-0: {colors[0]}; --color-1: {colors[1]};">

@@ -1,5 +1,6 @@
 <script>
     import PlaylistContainer from "$lib/components/PlaylistContainer.svelte";
+    import TrackCard from "$lib/components/TrackCard.svelte"
     let deg = 180;
 
     let { data } = $props();
@@ -13,6 +14,7 @@
             <div class="component-container">
                 <PlaylistContainer playlists={data.playlists} colors={data.colors}/>
             </div>
+            <TrackCard />
         </div>
         
     {/if}
