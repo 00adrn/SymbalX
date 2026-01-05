@@ -1,5 +1,5 @@
 <script>
-    import PlaylistContainer from "$lib/components/PlaylistContainer.svelte";
+    import UserPlaylists from "$lib/components/UserPlaylists.svelte";
     import TrackCard from "$lib/components/TrackCard.svelte"
     let deg = 180;
 
@@ -12,18 +12,20 @@
     {:else}
         <div class="body-row">
             <div class="component-container">
-                <PlaylistContainer playlists={data.playlists} colors={data.colors}/>
+                <UserPlaylists playlists={data.playlists} colors={data.colors}/>
             </div>
-            <TrackCard />
+            <TrackCard track={data.track} colors={data.colors}/>
         </div>
-        
     {/if}
+
+    {#each data.test as blerg}
+        <p>{blerg.name}</p>
+    {/each}
 </div>
 
 <style>
     .body {
         padding: 2rem;
-        width: 100%;
         height: 100vh;
         background: linear-gradient(var(--deg),var(--color-0), var(--color-1));
         display: flex;

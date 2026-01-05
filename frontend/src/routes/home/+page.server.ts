@@ -1,4 +1,5 @@
 import type { Profile } from "$lib/api/types"
+import { supabase } from "$lib/supabaseClient.js"
 
 export const load = async ({ fetch, parent }) => {
     const resp = await fetch("/api/profile-playlists", {
@@ -6,9 +7,12 @@ export const load = async ({ fetch, parent }) => {
         credentials: "include"
     });
 
-    const playlists = await resp.json();
+    const { data } = await supabase.from("test").select();
+    
+    const playlists = await resp.json(); 
 
     return {
-        playlists: playlists
+        playlists: playlists,
+        test: data ?? []
     };
 }

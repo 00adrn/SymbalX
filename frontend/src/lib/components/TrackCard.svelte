@@ -1,18 +1,19 @@
 <script lang="ts">
 
     let {track, colors} = $props();
+    let deg = 22.5;
 </script>
 
-<div class="track-card">
-    <img />
-    <div>
-        <p class="track-name"> </p>
-        <div>
+<div class="track-card" style="--deg: {deg}deg; --color-0: {colors[0]}; --color-1: {colors[1]};">
+    <img src={track.imageUrl} alt="Track Cover"/>
+    <div class="track-text">
+        <p class="track-name">{track.name}</p>
+        <div class="track-artist">
             {#each track.artists as artist, i}
                 {#if i == track.artists.length - 1}
-                    <p class="artist-name">{artist.name}</p>
+                    <p>{artist.name}</p>
                 {:else}
-                    <p class="artist-name">{artist.name}, </p>
+                    <p>{artist.name},</p>
                 {/if}
             {/each}
         </div>
@@ -23,7 +24,33 @@
     .track-card {
         display: flex;
         flex-direction: row;
+        align-items: center;
         width: 100%;
+        height: 4rem;
         gap: 1rem;
+        background: linear-gradient(var(--deg),var(--color-0), var(--color-1));
+        border-radius: .4rem;
+        border: solid gray;
+        border-width: 0 1px 1px 0;
     }
+    .track-card img {
+        width: 4rem;
+        height: 4rem;
+        border-radius: .4rem 0 0 .4rem;
+    }
+    .track-card .track-text{
+        font-size: 1.2rem;
+        color: white;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        min-width: 0;
+    }
+    .track-card .track-text .track-artist {
+        display: flex;
+        flex-direction: row;
+        gap: .4rem;
+        font-size: .8rem;
+    }
+
 </style>

@@ -25,11 +25,11 @@ public record class Track
         foreach (var artist in track.Artists)
             artists.Add(new Artist(artist));
     }
-    public Track(SimpleTrack track)
+    public Track(SimpleTrack track, string imageLink)
     {
         spotifyUri = track.Uri;
         name = track.Name;
-        imageUrl = "null";
+        imageUrl = imageLink;
         artists = new List<Artist>();
     }
     

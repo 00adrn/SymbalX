@@ -11,13 +11,22 @@ export const load = async ({ fetch }) => {
         credentials: "include"
     });
 
-    const profile = await resp.json();
+    const profile = await resp.json(); 
+
+    resp = await fetch("/api/get-info?uri=2rJvc7nSYWBKAuNUMx1Cr2&type=track", {
+        method: "GET",
+        credentials: "include"
+    });
+
+    const track = await resp.json();
 
     const colors = ["#252530", "#2e2d38", "#232323"];
 
     return {
         isLoggedIn: loginStatus.res == "true",
         profile: profile,
-        colors: colors
+        colors: colors,
+        track: track
+    
     }
 }

@@ -29,7 +29,7 @@ public class Album
             artists.Add(new Artist(artist));
         tracks = new List<Track>();
         foreach (var track in album.Tracks.Items!)
-            tracks.Add(new Track(track));
+            tracks.Add(new Track(track, imageUrl));
     }
 }
 
