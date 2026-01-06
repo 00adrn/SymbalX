@@ -11,6 +11,7 @@
 </svelte:head>
 
 <Navbar data={data} colors={data.colors} profileInfo={data.profile}/>
+
 {@render children()}
 
 

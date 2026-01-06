@@ -1,26 +1,17 @@
 <script>
-    import UserPlaylists from "$lib/components/UserPlaylists.svelte";
-    import TrackCard from "$lib/components/TrackCard.svelte"
+    import UserPlaylists from "$lib/components/spotify-components/UserPlaylists.svelte";
+    import TrackCard from "$lib/components/spotify-components/TrackCard.svelte"
+    import Regcard from "$lib/components/auth/Regcard.svelte"
     let deg = 180;
 
     let { data } = $props();
 </script>
 
 <div class="body" style="--deg: {deg}deg; --color-0: {data.colors[0]}; --color-1: {data.colors[1]}; --color-2: {data.colors[2]};">
-    {#if !data.isLoggedIn}
-        <p>You are not logged in</p>
-    {:else}
-        <div class="body-row">
-            <div class="component-container">
-                <UserPlaylists playlists={data.playlists} colors={data.colors}/>
-            </div>
-            <TrackCard track={data.track} colors={data.colors}/>
+    <div class="body-row">
+        <div class="component-container">
         </div>
-    {/if}
-
-    {#each data.test as blerg}
-        <p>{blerg.name}</p>
-    {/each}
+    </div>
 </div>
 
 <style>

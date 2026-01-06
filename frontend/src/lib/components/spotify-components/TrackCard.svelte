@@ -5,7 +5,7 @@
 </script>
 
 <div class="track-card" style="--deg: {deg}deg; --color-0: {colors[0]}; --color-1: {colors[1]};">
-    <img src={track.imageUrl} alt="Track Cover"/>
+    <img src={track.album.images[0].url} alt="Track Cover"/>
     <div class="track-text">
         <p class="track-name">{track.name}</p>
         <div class="track-artist">
@@ -30,8 +30,8 @@
         gap: 1rem;
         background: linear-gradient(var(--deg),var(--color-0), var(--color-1));
         border-radius: .4rem;
-        border: solid gray;
-        border-width: 0 1px 1px 0;
+        /* border: solid gray;
+        border-width: 0 1px 1px 0; */
     }
     .track-card img {
         width: 4rem;
@@ -50,6 +50,9 @@
         display: flex;
         flex-direction: row;
         gap: .4rem;
+        padding-left: .4rem;
+    }
+    .track-card .track-text .track-artist p {
         font-size: .8rem;
     }
 

@@ -1,12 +1,12 @@
 <script lang="ts">
-    import PlaylistCard from "$lib/components/PlaylistCard.svelte";
+    import PlaylistCard from "$lib/components/spotify-components/PlaylistCard.svelte";
 
-    let { playlists, colors } = $props();
+    let { userPlaylists, colors } = $props();
 </script>
 
 <div class="playlist-container" style="--color-0: {colors[0]}; --color-1: {colors[1]}; --color-2: {colors[2]};">
     <div class="card-container" >
-        {#each playlists as playlist}
+        {#each userPlaylists.items as playlist}
             <PlaylistCard playlist={playlist} colors={colors} />
         {/each}
     </div>

@@ -12,7 +12,7 @@
     <ul>
         {#if data.isLoggedIn}
             <li><div class="nav-item nav-profile">
-                <a class="nav-img" href="/profile"> <img class="nav-img" src={profileInfo.imageUrl} alt="profileImg"/></a>
+                <a class="nav-img" href="/profile"> <img class="nav-img" src={profileInfo.images[0].url} alt="profileImg"/></a>
             </div></li>
         {:else}
             <li><a class="nav-item" href="/auth/login">Login</a></li>
