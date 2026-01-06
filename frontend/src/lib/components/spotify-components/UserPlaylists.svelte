@@ -14,7 +14,7 @@
 
 <style>
     .playlist-container {
-        background-color: var(--color-2);
+        background-color: transparent;
         display: flex;
         flex-direction: column;
         align-items: center;

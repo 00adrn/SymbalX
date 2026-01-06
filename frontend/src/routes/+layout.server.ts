@@ -1,5 +1,5 @@
 export const load = async ({ fetch }) => {
-    let resp = await fetch("/auth/status", {
+    let resp = await fetch("/auth/spotify/status", {
         method: "GET",
         credentials: "include"
     });

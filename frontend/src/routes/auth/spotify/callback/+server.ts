@@ -9,7 +9,7 @@ export const GET: RequestHandler = async ({ url, cookies }) => {
     const state = url.searchParams.get("state");
     
     if (userState != state)
-        redirect(302, "/auth/login");
+        redirect(302, "/auth/spotify/login");
 
     const params = new URLSearchParams();
     params.append("grant_type", "authorization_code");

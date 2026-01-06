@@ -15,7 +15,7 @@
                 <a class="nav-img" href="/profile"> <img class="nav-img" src={profileInfo.images[0].url} alt="profileImg"/></a>
             </div></li>
         {:else}
-            <li><a class="nav-item" href="/auth/login">Login</a></li>
+            <li><a class="nav-item" href="/auth/spotify/login">Login</a></li>
         {/if}
         <li><a class="nav-item" href="/home">Home</a></li>
     </ul>

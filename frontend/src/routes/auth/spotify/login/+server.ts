@@ -14,7 +14,7 @@ export const GET: RequestHandler = async ({ cookies }) => {
     params.append("state", state);
 
     cookies.set("state", state, {
-        path: "/auth",
+        path: "/auth/spotify",
         httpOnly: true,
         sameSite: "lax",
         maxAge: 60 * 5
