@@ -1,32 +1,55 @@
 import { createClient } from "@supabase/supabase-js"
-import { PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_PUBLISHABLE_KEY } from "$env/static/public" 
+import { PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_PUBLISHABLE_KEY, PUBLIC_FRONTENDURL } from "$env/static/public"
 
 export const supabase = createClient(PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_PUBLISHABLE_KEY);
 
-async function register(username: string, email: string, password: string) {
-    const resp = await supabase.auth.signUp({
+async function signUp(username: string, email: string, password: string) {
+    const { data, error} = await supabase.auth.signUp({
         email: email,
         password: password,
         options: {
             data: {
                 username: username
-            }
+            },
+            emailRedirectTo: "/home"
         }
     });
 
-    return resp;
+    if (error) {
+        console.log(error);
+        return false;
+    }
+
+    console.log(data);
+    return true;
 }
 
-async function login(email: string, password: string) {
-    const resp = await supabase.auth.signInWithPassword({
+async function signIn(email: string, password: string) {
+    const { data, error} = await supabase.auth.signInWithPassword({
         email: email,
         password: password
     });
 
-    return resp;
+    if (error) {
+        console.log(error);
+        return false;
+    }
+
+    console.log(data);
+    return true;
+}
+
+async function resetPassword(email: string) {
+    const { data, error } = await supabase.auth.resetPasswordForEmail(email);
+    if (error) {
+        console.log(error);
+        return false;
+    }
+    
+    return true;
 }
 
 export const auth = {
-    register,
-    login,
+    signUp,
+    signIn,
 }

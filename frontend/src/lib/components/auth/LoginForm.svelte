@@ -2,48 +2,40 @@
     import { auth } from "$lib/supabaseClient"
     import { goto } from "$app/navigation";
 
-    let username: string = $state("");
     let email: string = $state("");
     let password: string = $state("");
-    let isLoggingIn: boolean = $state(true);
-    let isFetching: boolean = $state(false);
+
+    let attemptFeedback: string = $state("");
+    let attempted: boolean = $state(false);
+
 
     let onSumbit = async () => {
-        if (username === "" || email === "" || password === "")
-            return;
-        isFetching = true;
+        attempted = true;
 
-        if (isLoggingIn) {
-            const res = await auth.login(email, password);
-
-            if (res.error) {
-                return;
-            }
-            isFetching = false;
-            console.log(res);
-            goto("/");
+        if (email === "" || password === "") {
+            attemptFeedback = "Please properly fill out all fields";
             return;
         }
 
-        const res = await auth.register(username, email, password);
-        if (res.error) {
+        const res = await auth.singIn(email, password);
+
+        if (res) {
+            attemptFeedback = "Success. Please check your email to verify your account.";
             return;
         }
 
-        await auth.login(email, password);
-        
-        isFetching = false;
-        goto("/");
-        
+        attemptFeedback = "Something went wrong. Please try again.";
     }
 </script>
 
 <form class="login-register-form" onsubmit={onSumbit}>
     <div class="input-container">
-        <input type="text" placeholder="Enter username..." bind:value={username} class="">
         <input type="email" placeholder="Enter email..." bind:value={email}>
         <input type="password" placeholder="Enter a password..." bind:value={password}>
         <button type="submit">Submit</button>
+        {#if attempted}
+            <p>{attemptFeedback}</p>
+        {/if}
     </div>
 </form>
 
