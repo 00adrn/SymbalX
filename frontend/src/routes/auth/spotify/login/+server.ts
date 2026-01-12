@@ -5,7 +5,7 @@ import type { RequestHandler } from "./$types"
 export const GET: RequestHandler = async ({ cookies }) => {
     const state = createRandomString(64);
     const scope = "user-read-currently-playing playlist-read-private playlist-read-collaborative user-follow-read user-read-private";
-    
+
     const params = new URLSearchParams();
     params.append("response_type", "code");
     params.append("client_id", PRIVATE_CLIENTID);
@@ -25,9 +25,13 @@ export const GET: RequestHandler = async ({ cookies }) => {
 
 const createRandomString = (length: number) => {
     const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    const randVals = new Uint8Array(length);
+    crypto.getRandomValues(randVals);
+
     let result = "";
-    for (let i = length; i > 0; --i)
-        result += chars[Math.floor(Math.random() * chars.length)];
     
+    for (let i = length; i > 0; --i)
+        result += chars[randVals[i] % chars.length];
+
     return result;
 }

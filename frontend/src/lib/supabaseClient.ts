@@ -53,3 +53,7 @@ export const auth = {
     signUp,
     signIn,
 }
+
+export const dbClient = {
+    supabase
+}
