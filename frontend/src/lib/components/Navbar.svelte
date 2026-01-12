@@ -1,8 +1,8 @@
 <script>
+    import NavButton from "$lib/components/NavButton.svelte"
+
     let { data, colors, profileInfo } = $props();
     let deg = 180;
-
-
 </script>
 
 <div class="nav" style="--deg: {deg}deg; --color-0: {colors[0]}; --color-1: {colors[1]};">
@@ -15,9 +15,9 @@
                 <a class="nav-img" href="/profile"> <img class="nav-img" src={profileInfo.images[0].url} alt="profileImg"/></a>
             </div></li>
         {:else}
-            <li><a class="nav-item" href="/auth/spotify/login">Login</a></li>
+            <li><NavButton data={data} text="Login" href="/auth/login"/> </li>
         {/if}
-        <li><a class="nav-item" href="/home">Home</a></li>
+        <li><NavButton data={data} text="Home" href="/home" /></li>
     </ul>
 </div>
 

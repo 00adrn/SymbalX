@@ -1,6 +1,7 @@
 <script lang="ts">
     import { auth } from "$lib/supabaseClient"
-    import { goto } from "$app/navigation";
+
+    let { data } = $props();
 
     let username: string = $state("");
     let email: string = $state("");
@@ -29,7 +30,7 @@
     }
 </script>
 
-<form class="login-register-form" onsubmit={onSumbit}>
+<form class="login-register-form" onsubmit={onSumbit} style="--color-0: {data.colors[0]}; --color-1: {data.colors[1]}; --color-2: {data.colors[2]};">
     <div class="input-container">
         <input type="text" placeholder="Enter username..." bind:value={username} class="">
         <input type="email" placeholder="Enter email..." bind:value={email}>
@@ -50,11 +51,40 @@
         gap: 1rem;
     }
     .input-container {
+        padding: .4rem;
         height: 100%;
         width: 100%;
-        margin: .4rem;
         display: flex;
         flex-direction: column;
+        align-items: center;
         gap: 1rem;
     }
+    .input-container input {
+        width: 100%;
+        background: var(--color-2);
+        color: white;
+        font-size: 1.8rem;
+        padding: .4rem;
+        border-radius: .4rem;
+        border: 1px gray solid
+    }
+
+    .input-container input:hover {
+        background: var(--color-0);
+    }
+    .input-container button {
+        width: 75%;
+        height: 4rem;
+        background: var(--color-1);
+        color: white;
+        font-size: 1.8rem;
+        padding: .4rem;
+        border: 1px gray solid;
+        border-radius: .4rem;
+    }
+
+    .input-container button:hover {
+        background: var(--color-0);
+    }
+
 </style>

@@ -18,8 +18,8 @@
         align-items: center;
         background: linear-gradient(var(--deg),var(--color-0), var(--color-1));
         border-radius: .4rem;
-        /* border: solid gray;
-        border-width: 0 1px 1px 0; */
+        border: solid gray;
+        border-width: 0 1px 1px 0;
     }
     .playlist-card img {
         width: 4rem;

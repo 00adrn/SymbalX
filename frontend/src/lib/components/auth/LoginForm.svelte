@@ -17,11 +17,11 @@
             return;
         }
 
-        const res = await auth.singIn(email, password);
+        const res = await auth.signIn(email, password);
 
         if (res) {
-            attemptFeedback = "Success. Please check your email to verify your account.";
-            return;
+            attemptFeedback = "Login success!";
+            goto("/home");
         }
 
         attemptFeedback = "Something went wrong. Please try again.";

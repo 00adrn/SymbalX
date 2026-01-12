@@ -9,7 +9,7 @@ declare global {
 			user: User | null
 		}
 		interface PageData{
-			sessionl: Session | null
+			session: Session | null
 		}
 		// interface Error {}
 		// interface Locals {}
