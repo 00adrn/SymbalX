@@ -23,5 +23,5 @@ export const GET = async (event) => {
 
     redirectTo.pathname = "/auth/error";
     console.log(redirectTo)
-    redirect(303, "redirectTo");
+    redirect(303, redirectTo);
 }

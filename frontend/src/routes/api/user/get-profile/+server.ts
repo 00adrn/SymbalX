@@ -12,6 +12,7 @@ export const GET: RequestHandler = async ({ cookies, fetch }) => {
             Authorization : "Bearer " + accessToken
         }
     });
+    
     const data = await response.json();
 
     return json(data);

@@ -1,8 +1,8 @@
 import { PRIVATE_CLIENTID, PRIVATE_CLIENTSECRET, PRIVATE_REDIRECTURI } from "$env/static/private"
-import { redirect } from "@sveltejs/kit"
+import { redirect, error } from "@sveltejs/kit"
 import type { RequestHandler } from "./$types"
 
-export const GET: RequestHandler = async ({ url, cookies }) => {
+export const GET: RequestHandler = async ({ url, cookies, locals: { supabase } }) => {
     const userState = cookies.get("state");
 
     const code = url.searchParams.get("code");
@@ -27,8 +27,21 @@ export const GET: RequestHandler = async ({ url, cookies }) => {
 
     const data = await response.json();
 
+    if (data.error || !data.access_token) {
+        throw error(400, "Failed to authenticate with Spotify");
+    }
+
     cookies.set("accessToken", data.access_token, { path: "/", httpOnly: true, maxAge: data.expires_in });
     cookies.set("refreshToken", data.refresh_token, { path: "/", httpOnly: true, maxAge: data.expires_in});
+
+    const { data: { user } } = await supabase.auth.getUser();
+
+    if (!user) throw error(401, "User not authenticated");
+
+    const { error: dbError } = await supabase.from("user_profile_info").update({ sp_access_token: data.access_token, sp_refresh_token: data.refresh_token }).eq("user_id", user.id);
+
+    if (dbError)
+        console.log("Failed to save spotify tokens to db", dbError);
 
     console.log("Cookie expires in : " + data.expires_in);
 

@@ -10,15 +10,13 @@
     <link rel="icon" href={favicon} />
 </svelte:head>
 
-<Navbar data={data} colors={data.colors} profileInfo={data.profile}/>
+<Navbar data={data} />
 
 {@render children()}
-
 
 <style>
     :global(html) {
         font-family: "Nunito Sans Variable", sans-serif;
         font-weight: bold;
     }
-    
 </style>

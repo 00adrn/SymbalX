@@ -15,7 +15,7 @@ export const handle: Handle = async ({event, resolve}) => {
                 );
             },
         },
-    })
+    });
 
     event.locals.safeGetSession = async () => {
 
