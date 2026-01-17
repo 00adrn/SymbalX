@@ -6,6 +6,8 @@ export const load: LayoutServerLoad = async ({ fetch, locals: { safeGetSession }
 
     const colors = ["#252530", "#2e2d38", "#232323"];
 
+    let profile = null;
+
     return {
         colors: colors,
         cookies: cookies.getAll(), 

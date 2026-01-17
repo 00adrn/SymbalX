@@ -9,6 +9,7 @@
 <div class="body" style="--deg: {deg}deg; --color-0: {data.colors[0]}; --color-1: {data.colors[1]}; --color-2: {data.colors[2]};">
     <div class="body-row">
         <div class="component-container">
+            <UserPlaylists colors={data.colors} userPlaylists={data.playlists} />
         </div>
     </div>
 </div>

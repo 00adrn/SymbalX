@@ -2,8 +2,12 @@ import type { RequestHandler } from "@sveltejs/kit"
 import { json } from "@sveltejs/kit"
 import { PUBLIC_SPOTIFYAPI } from "$env/static/public"
 
-export const GET: RequestHandler = async ({ cookies, fetch }) => {
-    const accessToken = cookies.get("accessToken");
+export const GET: RequestHandler = async ({ request, fetch }) => {
+
+    const accessToken = request.headers.get("Authorization")?.split(" ")[1];
+
+    if (accessToken == null)
+        return json({Error: "No access token provided"});
 
     let resp = await fetch("/api/user/get-profile", {
         method: "GET",
