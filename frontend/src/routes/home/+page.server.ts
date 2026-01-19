@@ -1,25 +1,35 @@
-import type { Profile } from "$lib/api/types"
-import { supabase } from "$lib/supabaseClient"
 
 export const load = async ({ fetch, parent }) => {
-    const { session }  = await parent();
-    const sp_access_token = await supabase.from("user_profile_info").select("sp_access_token").eq("user_id", session?.user.id);
-
-
+    const { userData }  = await parent();
     let playlists = null;
+    let profile = null;
 
-    if (sp_access_token != null) {
-        const resp = await fetch("/api/user/get-all-playlists", {
-            method: "GET",
-            headers: {
-                "Authorization": "Bearer " + sp_access_token.data![0].sp_access_token
-            }
-        });
+    if (userData) {
 
-        playlists = await resp.json();
-    }
+        const accessToken = userData.sp_access_token;
+
+        if (accessToken) {
+            let resp = await fetch("/api/user/get-all-playlists", {
+                method: "GET",
+                headers: {
+                    "Authorization": "Bearer " + accessToken
+                }
+            });
+
+            playlists = await resp.json();
+
+            resp = await fetch("/api/user/get-profile", {
+                method: "GET",
+                headers: {
+                    "Authorization": "Bearer " + accessToken
+                }
+            });
+            profile = await resp.json();
+        }
+    } 
 
     return {
-        playlists
+        playlists,
+        profile,
     };
 }

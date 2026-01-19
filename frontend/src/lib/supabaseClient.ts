@@ -8,9 +8,6 @@ async function signUp(username: string, email: string, password: string) {
         email: email,
         password: password,
         options: {
-            data: {
-                username: username
-            },
             emailRedirectTo: "/home"
         }
     });
@@ -18,6 +15,10 @@ async function signUp(username: string, email: string, password: string) {
     if (error) {
         console.log(error);
         return false;
+    }
+
+    if (data.user) {
+        await supabase.from("user_profile_info").update({ username: username }).eq("user_id", data.user.id);
     }
 
     console.log(data);

@@ -3,18 +3,20 @@
 
     let { data} = $props();
     let deg = 180;
+
 </script>
 
-<div class="nav" style="--deg: {deg}deg; --color-0: {data.colors[0]}; --color-1: {data.colors[1]}; --color-2: {data.colors[2]};">
+<div class="nav" style="--deg: {deg}deg; --color-0: {data.colors[0]}; --color-1: {data.colors[1]}; --color-2: {data.colors[2]}; --color-3: {data.colors[3]};">
     <div>
         <p><a class="title-button" href="/home">symbalx</a></p>
     </div>
     <ul>
         {#if data.session}
-        <p>h</p>
+            <li><NavButton data={data} text="Profile" href="/profile" /></li>
         {:else}
             <li><NavButton data={data} text="Login" href="/auth/login"/> </li>
         {/if}
+
         <li><NavButton data={data} text="Home" href="/home" /></li>
     </ul>
 </div>
@@ -30,7 +32,7 @@
         justify-items: space-between;
         align-items: center;
         color: white;
-        border: solid gray;
+        border: solid var(--color-3);
         border-width: 1px 0;
     }
     .nav ul {

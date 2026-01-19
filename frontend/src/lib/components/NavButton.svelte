@@ -2,7 +2,7 @@
  let { data, text, href } = $props();
 </script>
 
-<div class="button-body" style="--color-0: {data.colors[0]}; --color-1: {data.colors[1]}; --color-2: {data.colors[2]};">
+<div class="button-body" style="--color-0: {data.colors[0]}; --color-1: {data.colors[1]}; --color-2: {data.colors[2]}; --color-3: {data.colors[3]};">
     <a {href} >{text}</a>
 </div>
 
@@ -14,7 +14,7 @@
         min-width: 5rem;
         height: 2.2rem;
         background-color: transparent;
-        border: 1px solid gray;
+        border: 1px solid var(--color-3);
         border-radius: .4rem;
     }
     .button-body:hover {

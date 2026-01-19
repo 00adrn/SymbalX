@@ -3,7 +3,7 @@
     let { playlist, colors } = $props();
 </script>
 
-<div class="playlist-card" style="--deg: {deg}deg; --color-0: {colors[0]}; --color-1: {colors[1]};">
+<div class="playlist-card" style="--deg: {deg}deg; --color-0: {colors[0]}; --color-1: {colors[1]}; --color-2: {colors[2]}; --color-3: {colors[3]};">
     <img src={playlist.images[0].url} alt="Playlist Cover" />
     <p>{playlist.name}</p>
 </div>
@@ -18,8 +18,8 @@
         align-items: center;
         background: linear-gradient(var(--deg),var(--color-0), var(--color-1));
         border-radius: .4rem;
-        border: solid gray;
-        border-width: 0 1px 1px 0;
+        border: solid var(--color-3);
+        border-width: 1px;
     }
     .playlist-card img {
         width: 4rem;

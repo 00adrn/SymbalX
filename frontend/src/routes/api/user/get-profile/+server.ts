@@ -3,8 +3,8 @@ import { json } from "@sveltejs/kit"
 import { PUBLIC_SPOTIFYAPI } from "$env/static/public"
 
 
-export const GET: RequestHandler = async ({ cookies, fetch }) => {
-    const accessToken = cookies.get("accessToken");
+export const GET: RequestHandler = async ({ fetch, request }) => {
+    const accessToken = request.headers.get("Authorization")?.split(" ")[1];
 
     const response = await fetch(PUBLIC_SPOTIFYAPI + `/me`, {
         method: "GET",

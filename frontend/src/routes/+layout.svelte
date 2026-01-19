@@ -12,11 +12,8 @@
 
 <Navbar data={data} />
 
-{#if data.session != null}
-    {@render children()}
-{:else}
-    <h1>Please log in.</h1>
-{/if}
+{@render children()}
+
 <style>
     :global(html) {
         font-family: "Nunito Sans Variable", sans-serif;

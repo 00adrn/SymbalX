@@ -2,8 +2,7 @@ import type { RequestHandler } from "@sveltejs/kit"
 import { json } from "@sveltejs/kit"
 import { PUBLIC_SPOTIFYAPI } from "$env/static/public"
 
-export const GET: RequestHandler = async ({ request, fetch }) => {
-
+export const GET: RequestHandler = async ({ request, fetch, }) => {
     const accessToken = request.headers.get("Authorization")?.split(" ")[1];
 
     if (accessToken == null)
@@ -13,6 +12,7 @@ export const GET: RequestHandler = async ({ request, fetch }) => {
         method: "GET",
         credentials: "include"
     });
+    
     const user = await resp.json();
 
     resp = await fetch(PUBLIC_SPOTIFYAPI + `/users/${user.id}/playlists`, {
