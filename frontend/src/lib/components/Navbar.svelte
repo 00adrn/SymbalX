@@ -8,7 +8,7 @@
 
 <div class="nav" style="--deg: {deg}deg; --color-0: {data.colors[0]}; --color-1: {data.colors[1]}; --color-2: {data.colors[2]}; --color-3: {data.colors[3]};">
     <div>
-        <p><a class="title-button" href="/home">symbalx</a></p>
+        <p><a class="title-button" href="/">symbalx</a></p>
     </div>
     <ul>
         {#if data.session}

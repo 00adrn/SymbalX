@@ -5,7 +5,7 @@ export const load: LayoutServerLoad = async ({ fetch, locals: { safeGetSession }
 
     const { session, user } = await safeGetSession();
 
-    let userData = null
+    let userData = null;
 
     if (session) {
         let userResp = await supabase.from("user_profile_info").select().eq("user_id", session?.user.id);

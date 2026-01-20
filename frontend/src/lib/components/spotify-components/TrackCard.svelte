@@ -30,7 +30,6 @@
         gap: 1rem;
         background: linear-gradient(var(--deg),var(--color-0), var(--color-1));
         border-radius: .4rem;
-        border: 1px solid gray;
     }
     .track-card img {
         width: 4rem;
@@ -49,7 +48,6 @@
         display: flex;
         flex-direction: row;
         gap: .4rem;
-        padding-left: .4rem;
     }
     .track-card .track-text .track-artist p {
         font-size: .8rem;

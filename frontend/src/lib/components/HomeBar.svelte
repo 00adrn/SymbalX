@@ -1,13 +1,15 @@
 <script>
+    import CurrentTrack from "$lib/components/spotify-components/CurrentTrack.svelte"
+    let { colors, userData } = $props();
 
-    let { userData } = $props();
 
 </script>
 
 <div class="body">
-    {#if userData.profile_image}
-        <img src={userData.img} alt="pfpimg"/>
-    {/if}
+    <img src={userData.img ? userData.img : null} alt="pfpimg"/>
+    <div class="current-track">
+        <CurrentTrack colors={colors} userData={userData} />
+    </div>
 </div>
 
 <style>
@@ -18,12 +20,18 @@
         display: flex;
         flex-direction: row;
         align-items: center;
+        padding: 1rem;
+        gap: 1rem;
     }
 
     .body img {
         width: 6rem;
         height: 6rem;
         border-radius: 50%
+    }
+
+    .current-track {
+        width: auto;
     }
 
 </style>
