@@ -6,7 +6,7 @@
 </script>
 
 <div class="body">
-    <img src={userData.img ? userData.img : null} alt="pfpimg"/>
+    <img src={userData.img} alt="pfpimg"/>
     <div class="current-track">
         <CurrentTrack colors={colors} userData={userData} />
     </div>
