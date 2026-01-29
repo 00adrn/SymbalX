@@ -1,35 +1,7 @@
 <script>
- let { data, text, href } = $props();
+ let { text, href } = $props();
 </script>
 
-<div class="button-body" style="--color-0: {data.colors[0]}; --color-1: {data.colors[1]}; --color-2: {data.colors[2]}; --color-3: {data.colors[3]};">
-    <a {href} >{text}</a>
-</div>
-
-<style>
-    .button-body {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        min-width: 5rem;
-        height: 2.2rem;
-        background-color: transparent;
-        border: 1px solid var(--color-3);
-        border-radius: .4rem;
-    }
-    .button-body:hover {
-        background-color: var(--color-2);
-    }
-    .button-body a {
-        height: 100%;
-        width: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        border-radius: .4rem;
-        color: white;
-        font-size: 1.2rem;
-        text-decoration: none;
-    }
-
-</style>
+<button class="btn ">
+    <a {href}>{text}</a>
+</button>

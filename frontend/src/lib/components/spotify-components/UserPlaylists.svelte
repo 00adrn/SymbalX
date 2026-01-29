@@ -12,37 +12,3 @@
     </div>
 </div>
 
-<style>
-    .playlist-container {
-        background-color: transparent;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        height: 40rem;
-        width: 100%;
-    }
-    .playlist-container .card-container {
-        margin: .4rem;
-        padding-left: .4rem;
-        padding-right: .4rem;
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-start;
-        overflow-y: scroll;
-        gap: .4rem;
-        scrollbar-width: .2rem; 
-        scrollbar-color: var(--color-1) transparent;
-
-    }
-    .card-container::-webkit-scrollbar-track {
-        background: transparent;
-    }
-    .card-container::-webkit-scrollbar-thumb {
-        border-radius: .4rem;
-        background-clip: content-box;
-    }
-    .card-container::-webkit-scrollbar-button {
-        display: none;
-    }
-</style>

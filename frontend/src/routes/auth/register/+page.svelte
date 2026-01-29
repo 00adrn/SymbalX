@@ -12,25 +12,3 @@
     </div>
 </div>
 
-<style>
-    .body {
-        padding: 2rem;
-        height: 100vh;
-        background: linear-gradient(var(--deg),var(--color-0), var(--color-1));
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
-        gap: 1rem;
-        overflow-y: scroll;
-        scrollbar-width: .2rem; 
-        scrollbar-color: var(--color-0) var(--color-2);
-    }
-    .component-container {
-
-        height: auto;
-        border-radius: .4rem;
-        border: 1px gray solid;
-        overflow: hidden;
-    }
-</style>

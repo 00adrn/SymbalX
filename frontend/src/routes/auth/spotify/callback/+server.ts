@@ -43,5 +43,5 @@ export const GET: RequestHandler = async ({ url, cookies, locals: { supabase } }
 
     console.log("Cookie expires in : " + data.expires_in);
 
-    redirect(302, PUBLIC_FRONTENDURL);
+    redirect(302, "/");
 }

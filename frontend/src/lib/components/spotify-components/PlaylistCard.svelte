@@ -8,28 +8,3 @@
     <p>{playlist.name}</p>
 </div>
 
-<style>
-    .playlist-card {
-        display: flex;
-        flex-direction: row;
-        width: 100%;
-        gap: 1rem;
-        height: 4rem;
-        align-items: center;
-        background: linear-gradient(var(--deg),var(--color-0), var(--color-1));
-        border-radius: .4rem;
-    }
-    .playlist-card img {
-        width: 4rem;
-        height: 4rem;
-        border-radius: .4rem 0 0 .4rem;
-    }
-    .playlist-card p {
-        font-size: 1.2rem;
-        color: white;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        min-width: 0;
-    }
-</style>

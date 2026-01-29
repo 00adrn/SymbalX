@@ -19,38 +19,3 @@
         </div>
     </div>
 </div>
-
-<style>
-    .track-card {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        width: 100%;
-        height: 4rem;
-        gap: 1rem;
-        background: linear-gradient(var(--deg),var(--color-0), var(--color-1));
-        border-radius: .4rem;
-    }
-    .track-card img {
-        width: 4rem;
-        height: 4rem;
-        border-radius: .4rem 0 0 .4rem;
-    }
-    .track-card .track-text{
-        font-size: 1.2rem;
-        color: white;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        min-width: 0;
-    }
-    .track-card .track-text .track-artist {
-        display: flex;
-        flex-direction: row;
-        gap: .4rem;
-    }
-    .track-card .track-text .track-artist p {
-        font-size: .8rem;
-    }
-
-</style>
