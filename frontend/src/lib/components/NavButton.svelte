@@ -2,6 +2,6 @@
  let { text, href } = $props();
 </script>
 
-<button class="btn ">
+<button class="btn">
     <a {href}>{text}</a>
 </button>
