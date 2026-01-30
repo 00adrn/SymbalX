@@ -20,28 +20,36 @@
     });
 </script>
 
-<div class="track-card" style="--deg: {deg}deg; --color-0: {colors[0]}; --color-1: {colors[1]}; --color-2: {colors[2]}; --color-3: {colors[3]};">
-    <div class="track-img">
+<div class="w-full h-full flex flex-row items-center gap-6 bg-gray-900/90">
+    <div class="">
         {#if track}
-            <img src={track.album.images[0].url} alt="Track Cover"/>
+            <img src={track.album.images[0].url} alt="Track Cover" class="w-28 h-28"/>
         {/if}
     </div>
-    <div class="track-text">
-        <p class="current-text">Currently listening to:</p>
-        <p class="track-name">
+    <div class="flex flex-col gap-2 pr-4 truncate">
+        <p class="text-white font-semibold">Currently listening to:</p>
+        <p class="text-white font-bold text-3xl">
             {#if track} 
                 {track.name}
             {:else}
                 No track playing
             {/if}
         </p>
-        <div class="track-artist">
+        <div class="flex flex-row gap-2 text-white font-semibold text-xl ">
+            <p>by</p>
             {#if track}
                 {#each track.artists as artist, i}
                     {#if i == track.artists.length - 1}
+                        {#if track.artists.length > 1}
+                            <p>and</p>
+                        {/if}
                         <p>{artist.name}</p>
                     {:else}
-                        <p>{artist.name},</p>
+                        {#if track.artists.length != 2}
+                            <p>{artist.name},</p>
+                        {:else}
+                            <p>{artist.name}</p>
+                        {/if}
                     {/if}
                 {/each}
             {/if}

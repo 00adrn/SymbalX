@@ -5,10 +5,10 @@
 </script>
 
 <div
-  class="w-full flex flex-row items-center justify-between sticky top-0 p-4 bg-gray-500/75"
+  class="w-full h-16 flex flex-row items-center justify-between sticky top-0 p-3 bg-gray-900 border-b border-gray-300"
 >
   <div>
-    <p class="text-4xl font-extrabold"><a class="" href="/">symbalx</a></p>
+    <p class="text-4xl font-extrabold text-white"><a class="" href="/">symbalx</a></p>
   </div>
 
   <div class="flex flex-row gap-x-2">

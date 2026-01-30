@@ -4,10 +4,10 @@
     let { userPlaylists, colors } = $props();
 </script>
 
-<div class="playlist-container" style="--color-0: {colors[0]}; --color-1: {colors[1]}; --color-2: {colors[2]};">
-    <div class="card-container" >
+<div class="w-full h-full rounded-2xl bg-transparent border-1 border-gray-300">
+    <div class="w-full h-full flex flex-col gap-y-2 p-2 overflow-y-scroll" >
         {#each userPlaylists.items as playlist}
-            <PlaylistCard playlist={playlist} colors={colors} />
+            <PlaylistCard playlist={playlist} />
         {/each}
     </div>
 </div>

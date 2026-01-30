@@ -5,13 +5,11 @@
 
 </script>
 
-<div class="body">
-        <div class="body-left">
-            <img src={userData.img} alt="pfpimg"/>
+<div class="w-full flex flex-row justify-between items-center border-b-1 border-gray-600 pl-4 pr-4 pb-2 pt-2 bg-gray-900">
+        <div class="">
+            <img src={userData.img} alt="pfpimg" class="w-36 h-36 rounded-full"/>
         </div>
-        <div class="body-right">
-            <div class="current-track">
-                <CurrentTrack colors={colors} userData={userData} />
-            </div>
+        <div class="w-1/4 h-full flex flex-row justify-left overflow">
+            <CurrentTrack colors={colors} userData={userData} />
         </div>
     </div>

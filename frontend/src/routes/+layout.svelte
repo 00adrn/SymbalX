@@ -9,7 +9,7 @@
 <svelte:head>
     <link rel="icon" href={favicon} />
 </svelte:head>
-
-<Navbar data={data} />
-
-{@render children()}
+<div class="bg-black">
+    <Navbar data={data} />
+    {@render children()}
+</div>

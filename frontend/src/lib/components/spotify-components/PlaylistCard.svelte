@@ -1,10 +1,9 @@
 <script lang="ts">
-    const deg = 22.5
-    let { playlist, colors } = $props();
+    let { playlist} = $props();
 </script>
 
-<div class="playlist-card" style="--deg: {deg}deg; --color-0: {colors[0]}; --color-1: {colors[1]}; --color-2: {colors[2]}; --color-3: {colors[3]};">
-    <img src={playlist.images[0].url} alt="Playlist Cover" />
-    <p>{playlist.name}</p>
+<div class="w-full h-full display flex flex-row items-center gap-6 bg-gray-900 rounded-2xl border-1 border-gray-600" >
+    <img src={playlist.images[0].url} alt="Playlist Cover" class="w-24 h-24 rounded-l-2xl"/>
+    <p class="text-2xl font-bold"><a href="/playlists/{playlist.id}">{playlist.name}</a></p>
 </div>
 

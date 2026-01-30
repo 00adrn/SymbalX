@@ -4,11 +4,11 @@
     let deg = 22.5;
 </script>
 
-<div class="track-card" style="--deg: {deg}deg; --color-0: {colors[0]}; --color-1: {colors[1]};">
+<div class="">
     <img src={track.album.images[0].url} alt="Track Cover"/>
-    <div class="track-text">
-        <p class="track-name">{track.name}</p>
-        <div class="track-artist">
+    <div class="">
+        <p class="">{track.name}</p>
+        <div class="">
             {#each track.artists as artist, i}
                 {#if i == track.artists.length - 1}
                     <p>{artist.name}</p>
