@@ -5,7 +5,7 @@
 </script>
 
 <div
-  class="w-full h-16 flex flex-row items-center justify-between sticky top-0 p-3 bg-gray-900 border-b border-gray-300"
+  class="w-full h-16 flex flex-row items-center justify-between sticky top-0 p-3 bg-gray-300 border-b border-gray-600"
 >
   <div>
     <p class="text-4xl font-extrabold text-white"><a class="" href="/">symbalx</a></p>

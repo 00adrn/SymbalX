@@ -20,15 +20,15 @@
     });
 </script>
 
-<div class="w-full h-full flex flex-row items-center gap-6 bg-gray-900/90">
+<div class="w-full h-full flex flex-row items-center gap-6 bg-transparent">
     <div class="">
         {#if track}
             <img src={track.album.images[0].url} alt="Track Cover" class="w-28 h-28"/>
         {/if}
     </div>
     <div class="flex flex-col gap-2 pr-4 truncate">
-        <p class="text-white font-semibold">Currently listening to:</p>
-        <p class="text-white font-bold text-3xl">
+        <p class="text-black font-semibold">Currently listening to:</p>
+        <p class="text-black font-bold text-3xl">
             {#if track} 
                 {track.name}
             {:else}
@@ -36,19 +36,19 @@
             {/if}
         </p>
         <div class="flex flex-row gap-2 text-white font-semibold text-xl ">
-            <p>by</p>
             {#if track}
+                <p class="text-black">by</p>
                 {#each track.artists as artist, i}
                     {#if i == track.artists.length - 1}
                         {#if track.artists.length > 1}
-                            <p>and</p>
+                            <p class="text-black">and</p>
                         {/if}
-                        <p>{artist.name}</p>
+                        <p class="text-black">{artist.name}</p>
                     {:else}
                         {#if track.artists.length != 2}
-                            <p>{artist.name},</p>
+                            <p class="text-black">{artist.name},</p>
                         {:else}
-                            <p>{artist.name}</p>
+                            <p class="text-black">{artist.name}</p>
                         {/if}
                     {/if}
                 {/each}
