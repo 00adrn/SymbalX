@@ -69,7 +69,7 @@ public class TokenRefreshWorker : BackgroundService
                 _logger.LogInformation($"User <{user.Username}> tokens refreshed");
             }
 
-            await Task.Delay(30000, stopToken);
+            await Task.Delay(1800000, stopToken);
         }
 
         _logger.LogInformation("Token Refresh Worker stopped.");
