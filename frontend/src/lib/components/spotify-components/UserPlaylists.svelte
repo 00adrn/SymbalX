@@ -4,7 +4,7 @@
     let { userPlaylists, colors } = $props();
 </script>
 
-<div class="w-full h-full rounded-2xl bg-transparent border border-gray-400 p-2">
+<div class="w-full h-full rounded-2xl bg-transparent border border-gray-200 p-2">
     <div class="w-full h-full flex rounded-2xl flex-col gap-y-2 overflow-y-scroll" >
         {#each userPlaylists.items as playlist}
             <PlaylistCard playlist={playlist} />
