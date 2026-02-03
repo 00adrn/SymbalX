@@ -1,48 +1,58 @@
-using SpotifyAPI.Web;
 using dotenv.net;
+using System.Net.Http;
+using System.Text.Json;
+using System.Collections.Generic;
 
 namespace backend.src.spotify;
 
-public class SpAuth 
+public class SpAuth
 {
     private readonly string _clientId;
-    private readonly string _backendUrl;
-    private readonly IHttpContextAccessor _context;
-    public SpAuth(IHttpContextAccessor http)
+    private readonly string _clientSecret;
+    private readonly HttpClient _http = new();
+    private readonly string _spotifyUrl;
+
+    public SpAuth()
     {
-        DotEnv.Load();
-        var env = DotEnv.Read();
-        _clientId = env["clientId"];
-        _backendUrl = env["BACKENDURL"];
-        _context = http;
-    }
-    public Uri GenerateLoginUri()
-    {
-        var (verifier, challenge) = PKCEUtil.GenerateCodes();
-        _context.HttpContext?.Session.SetString("verifier", verifier);
-        LoginRequest request = new LoginRequest(new Uri($"{_backendUrl}/auth/callback"), _clientId, LoginRequest.ResponseType.Code)
-        {
-            CodeChallengeMethod = "S256",
-            CodeChallenge = challenge,
-            Scope = new[] { Scopes.PlaylistReadPrivate,
-                            Scopes.PlaylistReadCollaborative,
-                            Scopes.UserReadCurrentlyPlaying,
-                            Scopes.UserFollowRead,
-                            Scopes.UserReadPrivate }
-        };
-        Uri redirectUri = request.ToUri();
-        return redirectUri;
-    }
-    
-    public async Task<bool> HandleCallback (string responseCode)
-    {
-        string? verifier = _context.HttpContext?.Session.GetString("verifier");
-        if (String.IsNullOrEmpty(verifier))
-            return false;
-        var response = await new OAuthClient().RequestToken(new PKCETokenRequest(_clientId, responseCode, new Uri($"{_backendUrl}/auth/callback"), verifier));
-        _context.HttpContext?.Session.SetString("accessToken", response.AccessToken);
-        _context.HttpContext?.Session.SetString("refreshToken", response.RefreshToken);
-        return true;
+        _clientId = Environment.GetEnvironmentVariable("SPOTIFY_CLIENTID")!;
+        _spotifyUrl = Environment.GetEnvironmentVariable("SPOTIFY_API")!;
+        _clientSecret = Environment.GetEnvironmentVariable("SPOTIFY_CLIENTSECRET")!;
     }
 
+    public async Task<(string accessToken, string? refreshToken)> RefreshAccessTokenAsync(string refreshToken)
+    {
+        var payload = new FormUrlEncodedContent(new[]
+        {
+            new KeyValuePair<string, string>("grant_type", "refresh_token"),
+            new KeyValuePair<string, string>("refresh_token", refreshToken),
+            new KeyValuePair<string, string>("client_id", _clientId),
+            new KeyValuePair<string, string>("client_secret", _clientSecret)
+        });
+
+        var resp = await _http.PostAsync(_spotifyUrl, payload);
+
+        try{
+            resp.EnsureSuccessStatusCode();
+
+            string body = await resp.Content.ReadAsStringAsync();
+
+            RefreshResponse refreshResponse = JsonSerializer.Deserialize<RefreshResponse>(body, new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            })!;
+
+            return (refreshResponse.Access_Token!, refreshResponse.Refresh_Token);
+        } catch
+        {
+            Console.WriteLine("Token Refresh Failed.");
+            Console.WriteLine(await resp.Content.ReadAsStringAsync());
+            return ("", "");
+        }
+    }
+}
+
+public record class RefreshResponse
+{
+    public string? Access_Token { get; set; }
+    public string? Refresh_Token { get; set; }
 }
